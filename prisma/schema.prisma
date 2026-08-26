@@ -1,0 +1,997 @@
+// PROJECT SANCHARI — PostgreSQL schema
+// Money is stored as integer rupees; paise conversion happens only inside payment adapters.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum Role {
+  TOURIST
+  PARTNER
+  EDITOR
+  MODERATOR
+  DISTRICT_ADMIN
+  TOURISM_ADMIN
+  SUPER_ADMIN
+}
+
+enum ContentStatus {
+  DRAFT
+  IN_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum DestinationType {
+  CITY
+  TEMPLE
+  BEACH
+  WATERFALL
+  HERITAGE_SITE
+  MUSEUM
+  FORT
+  CAVE
+  WILDLIFE_SANCTUARY
+  HILL_STATION
+  VIEWPOINT
+  PARK
+  ADVENTURE_SPOT
+  SPIRITUAL_PLACE
+  CULTURAL_VENUE
+  LAKE
+  ISLAND
+}
+
+enum PriceLevel {
+  BUDGET
+  MID
+  PREMIUM
+  LUXURY
+}
+
+enum EventCategory {
+  FESTIVAL
+  CULTURAL
+  RELIGIOUS
+  FAIR
+  SPORTS
+  EXHIBITION
+  MUSIC_DANCE
+}
+
+enum StayType {
+  HOTEL
+  RESORT
+  HOMESTAY
+  GUESTHOUSE
+  TENT_CAMP
+}
+
+enum VerificationStatus {
+  UNVERIFIED
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum TransportMode {
+  AIR
+  RAIL
+  ROAD_BUS
+  ROAD_TAXI
+  RENTAL
+  FERRY
+  LOCAL
+}
+
+enum TripStatus {
+  PLANNING
+  CONFIRMED
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+enum ItineraryItemType {
+  ATTRACTION
+  MEAL
+  TRAVEL
+  CHECKIN
+  REST
+  ACTIVITY
+  EVENT
+}
+
+enum BookingType {
+  STAY_ROOM
+  PACKAGE
+  EVENT_TICKET
+  ATTRACTION
+  TRANSPORT
+  GUIDE
+}
+
+enum BookingStatus {
+  PENDING_PAYMENT
+  CONFIRMED
+  CANCELLED
+  FAILED
+  REFUNDED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  CREATED
+  AUTHORIZED
+  CAPTURED
+  FAILED
+  REFUNDED
+}
+
+enum ReviewTarget {
+  DESTINATION
+  STAY
+  PACKAGE
+  EVENT
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum LedgerAction {
+  EARN
+  REDEEM
+  ADJUST
+  EXPIRE
+}
+
+enum NotificationType {
+  BOOKING
+  TRIP
+  REVIEW
+  REWARD
+  SYSTEM
+  ALERT
+  PARTNER
+}
+
+enum AlertSeverity {
+  INFO
+  WARNING
+  CRITICAL
+}
+
+enum PartnerStatus {
+  PENDING
+  APPROVED
+  SUSPENDED
+  REJECTED
+}
+
+enum PartnerBusinessType {
+  HOTEL
+  TOUR_OPERATOR
+  GUIDE
+  TRANSPORT
+  EVENT_ORGANIZER
+  RESTAURANT
+}
+
+// ─── Identity & Access ──────────────────────────────────────────────────────
+
+model User {
+  id               String    @id @default(uuid())
+  email            String    @unique
+  phone            String?   @unique
+  passwordHash     String?
+  name             String
+  role             Role      @default(TOURIST)
+  avatarEmoji      String?   // lightweight avatar until media pipeline is wired to storage
+  preferredLanguage String   @default("en")
+  interests        String[]  @default([])
+  travelPace       String?   // RELAXED | BALANCED | PACKED
+  budgetLevel      PriceLevel?
+  foodPreference   String?
+  accessibilityNeeds String[] @default([])
+  homeDistrictCode String?
+  emailVerifiedAt  DateTime?
+  phoneVerifiedAt  DateTime?
+  isActive         Boolean   @default(true)
+  tokenVersion     Int       @default(0) // bump to invalidate all sessions
+  trustScore       Int       @default(50)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  lastLoginAt      DateTime?
+
+  partnerProfile     PartnerProfile?
+  trips              Trip[]
+  reviews            Review[]
+  favorites          Favorite[]
+  ledgerEntries      RewardLedgerEntry[]
+  userBadges         UserBadge[]
+  challenges         UserChallenge[]
+  notifications      Notification[]
+  notificationSetting NotificationSetting?
+  bookings           Booking[]
+  conversations      ChatConversation[]
+  consents           ConsentRecord[]
+  otpCodes           OtpCode[]
+
+  @@index([role, isActive])
+}
+
+model OtpCode {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose   String   // LOGIN | PASSWORD_RESET | VERIFY_PHONE
+  codeHash  String
+  expiresAt DateTime
+  consumedAt DateTime?
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([userId, purpose])
+}
+
+model ConsentRecord {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind      String   // LOCATION | ANALYTICS | PERSONALIZATION | MARKETING
+  granted   Boolean
+  ip        String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, kind])
+}
+
+// ─── Partners ───────────────────────────────────────────────────────────────
+
+model PartnerProfile {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  businessName    String
+  businessType    PartnerBusinessType
+  gstin           String?
+  licenseNo       String?
+  contactPhone    String
+  contactEmail    String
+  address         String?
+  districtId      String?
+  district        District? @relation(fields: [districtId], references: [id])
+  website         String?
+  description     String?
+  status          PartnerStatus @default(PENDING)
+  verifiedAt      DateTime?
+  verifiedByUserId String?
+  rejectionReason String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  stays    Stay[]
+  packages TourPackage[]
+
+  @@index([status])
+}
+
+// ─── Geography ──────────────────────────────────────────────────────────────
+
+model District {
+  id           String  @id @default(uuid())
+  code         String  @unique // e.g. "VSP", "CTR"
+  name         String
+  slug         String  @unique
+  headquarters String
+  region       String  // North Coast | South Coast | Godavari | Krishna | Rayalaseema
+  lat          Float
+  lng          Float
+  description  String?
+
+  destinations Destination[]
+  events       Event[]
+  hotels       Stay[]
+  emergencyContacts EmergencyContact[]
+  safetyAlerts SafetyAlert[]
+  partners     PartnerProfile[]
+
+  @@index([region])
+}
+
+// ─── Tourism Catalog ────────────────────────────────────────────────────────
+
+model Destination {
+  id                 String   @id @default(uuid())
+  slug               String   @unique
+  name               String
+  nameTe             String?
+  type               DestinationType
+  parentDestinationId String?
+  parent             Destination?  @relation("DestinationTree", fields: [parentDestinationId], references: [id])
+  children           Destination[] @relation("DestinationTree")
+
+  summary            String
+  description        String?
+  history            String?
+  significance       String?
+  districtId         String
+  district           District @relation(fields: [districtId], references: [id])
+  address            String?
+  lat                Float
+  lng                Float
+  openingHours       Json? // [{ "days": [0..6], "open": "06:00", "close": "21:00" }]
+  entryFeeAdult      Int?     // rupees
+  entryFeeChild      Int?
+  bestTimeToVisit    String?
+  visitDurationMin   Int      @default(60)
+  facilities         String[] @default([])
+  accessibilityInfo  String?
+  contactPhone       String?
+  website            String?
+  heroGradient       String?  // deterministic art direction key until real photography ingested
+  images             String[] @default([])
+  categories         String[] @default([])
+  tags               String[] @default([])
+  easyAccess         Boolean  @default(false) // senior / wheelchair friendly signal
+  familyFriendly     Boolean  @default(true)
+  popularityScore    Float    @default(0)
+  ratingAvg          Float    @default(0)
+  ratingCount        Int      @default(0)
+  isFeatured         Boolean  @default(false)
+  status             ContentStatus @default(DRAFT)
+  seoTitle           String?
+  seoDescription     String?
+  createdByUserId    String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  itineraryItems ItineraryItem[]
+  reviews        Review[]
+  favorites      Favorite[]
+  events         Event[]
+
+  @@index([districtId, status])
+  @@index([type, status])
+  @@index([status, popularityScore(sort: Desc)])
+  @@index([lat, lng])
+  @@index([isFeatured, status])
+}
+
+model Stay {
+  id                 String   @id @default(uuid())
+  slug               String   @unique
+  name               String
+  type               StayType @default(HOTEL)
+  description        String?
+  districtId         String
+  district           District @relation(fields: [districtId], references: [id])
+  destinationId      String?
+  address            String
+  lat                Float
+  lng                Float
+  amenities          String[] @default([])
+  pricePerNightMin   Int
+  pricePerNightMax   Int
+  priceLevel         PriceLevel @default(MID)
+  checkInTime        String   @default("12:00")
+  checkOutTime       String   @default("11:00")
+  policiesText       String?
+  ratingAvg          Float    @default(0)
+  ratingCount        Int      @default(0)
+  images             String[] @default([])
+  heroGradient       String?
+  contactPhone       String?
+  email              String?
+  partnerId          String?
+  partner            PartnerProfile? @relation(fields: [partnerId], references: [id])
+  verification       VerificationStatus @default(PENDING)
+  isActive           Boolean  @default(true)
+  rooms              Room[]
+  reviews            Review[]
+  favorites          Favorite[]
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([districtId, verification, isActive])
+  @@index([priceLevel])
+  @@index([lat, lng])
+}
+
+model Room {
+  id          String  @id @default(uuid())
+  stayId      String
+  stay        Stay    @relation(fields: [stayId], references: [id], onDelete: Cascade)
+  name        String
+  capacity    Int     @default(2)
+  bedType     String?
+  basePrice   Int
+  totalRooms  Int     @default(1)
+  amenities   String[] @default([])
+
+  bookings Booking[]
+
+  @@index([stayId])
+}
+
+model TourPackage {
+  id             String   @id @default(uuid())
+  slug           String   @unique
+  title          String
+  operatorId     String
+  operator       PartnerProfile @relation(fields: [operatorId], references: [id])
+  summary        String
+  description    String?
+  durationDays   Int
+  pricePerPerson Int
+  includes       String[] @default([])
+  excludes       String[] @default([])
+  highlights     String[] @default([])
+  maxGroupSize   Int      @default(20)
+  startCity      String?
+  status         ContentStatus @default(DRAFT)
+  images         String[] @default([])
+  bookings       Booking[]
+  reviews        Review[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([operatorId, status])
+}
+
+model Event {
+  id                   String  @id @default(uuid())
+  slug                 String  @unique
+  title                String
+  category             EventCategory
+  description          String?
+  culturalSignificance String?
+  venueName            String?
+  districtId           String
+  district             District @relation(fields: [districtId], references: [id])
+  destinationId        String?
+  destination          Destination? @relation(fields: [destinationId], references: [id])
+  lat                  Float
+  lng                  Float
+  startDate            DateTime
+  endDate              DateTime
+  recurrenceNote       String? // e.g. "Annual — Sankranti season"
+  ticketInfo           String?
+  entryFee             Int?
+  organizer            String?
+  contactPhone         String?
+  expectedVisitors     String?
+  heroGradient         String?
+  status               ContentStatus @default(PUBLISHED)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([startDate, status])
+  @@index([districtId])
+  @@index([category])
+}
+
+model TransportOption {
+  id              String        @id @default(uuid())
+  mode            TransportMode
+  label           String        // "APSRTC Express bus", "Indian Railways"
+  fromPlace       String
+  toPlace         String
+  fromLat         Float?
+  fromLng         Float?
+  toLat           Float?
+  toLng           Float?
+  operatorName    String?
+  scheduleSummary String?
+  approxCostMin   Int?
+  approxCostMax   Int?
+  durationMinutes Int?
+  notes           String?
+  bookingHint     String?
+
+  @@index([toPlace])
+  @@index([mode])
+}
+
+model EmergencyContact {
+  id          String  @id @default(uuid())
+  category    String  // POLICE | AMBULANCE | HOSPITAL | FIRE | DISASTER | HELPLINE | WOMAN_CHILD
+  name        String
+  phone       String
+  altPhone    String?
+  address     String?
+  districtId  String?
+  district    District? @relation(fields: [districtId], references: [id])
+  lat         Float?
+  lng         Float?
+  isUniversal Boolean @default(false) // national numbers like 112/108
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([districtId])
+}
+
+model SafetyAlert {
+  id         String         @id @default(uuid())
+  title      String
+  message    String
+  severity   AlertSeverity  @default(INFO)
+  districtId String?
+  district   District?      @relation(fields: [districtId], references: [id])
+  startsAt   DateTime       @default(now())
+  endsAt     DateTime?
+  isActive   Boolean        @default(true)
+  issuedBy   String
+  createdAt  DateTime       @default(now())
+
+  @@index([isActive, startsAt])
+}
+
+// ─── Trips & Itineraries ────────────────────────────────────────────────────
+
+model Trip {
+  id                    String   @id @default(uuid())
+  userId                String
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title                 String
+  originName            String
+  originLat             Float
+  originLng             Float
+  startDate             DateTime
+  endDate               DateTime
+  days                  Int
+  adults                Int      @default(2)
+  children              Int      @default(0)
+  seniors               Int      @default(0)
+  budgetTotal           Int?
+  transportPreference   String?  // CAR | BUS | TRAIN | ANY
+  accommodationPref     PriceLevel?
+  interests             String[] @default([])
+  pace                  String   @default("BALANCED")
+  foodPreference        String?
+  accessibilityNeeds    String[] @default([])
+  estimatedCost         Int?
+  aiExplanation         String?
+  status                TripStatus @default(PLANNING)
+  shareToken            String?  @unique
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  days_ ItineraryDay[]
+  bookings              Booking[]
+
+  @@index([userId, status])
+  @@index([shareToken])
+}
+
+model ItineraryDay {
+  id        String  @id @default(uuid())
+  tripId    String
+  trip      Trip    @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  dayNumber Int
+  date      DateTime?
+  title     String?
+  clusterName String? // geographic anchor for the day
+  notes     String?
+  items     ItineraryItem[]
+
+  @@unique([tripId, dayNumber])
+}
+
+model ItineraryItem {
+  id                       String  @id @default(uuid())
+  dayId                    String
+  day                      ItineraryDay @relation(fields: [dayId], references: [id], onDelete: Cascade)
+  position                 Int
+  itemType                 ItineraryItemType
+  startTimeMin             Int // minutes from midnight
+  endTimeMin               Int
+  title                    String
+  description              String?
+  reason                   String? // why recommended — shown in UI
+  destinationId            String?
+  destination              Destination? @relation(fields: [destinationId], references: [id])
+  placeName                String?
+  lat                      Float?
+  lng                      Float?
+  travelFromPrevMinutes    Int     @default(0)
+  estimatedCostPerPerson   Int     @default(0)
+  bookingRequired          Boolean @default(false)
+  weatherSensitive         Boolean @default(false)
+  locked                   Boolean @default(false) // preserved during rescheduling
+  meta                     Json?
+
+  @@index([dayId, position])
+}
+
+// ─── Commerce ───────────────────────────────────────────────────────────────
+
+model Booking {
+  id              String       @id @default(uuid())
+  reference       String       @unique // human-readable SAN-XXXXXX
+  userId          String
+  user            User         @relation(fields: [userId], references: [id])
+  type            BookingType
+  roomId          String?
+  room            Room?        @relation(fields: [roomId], references: [id])
+  packageId       String?
+  package         TourPackage? @relation(fields: [packageId], references: [id])
+  tripId          String?
+  trip            Trip?        @relation(fields: [tripId], references: [id])
+  titleSnapshot   String
+  quantity        Int          @default(1)
+  unitPrice       Int
+  totalAmount     Int
+  currency        String       @default("INR")
+  travellerDetails Json?
+  startsOn        DateTime?
+  nights          Int?
+  notes           String?
+  status          BookingStatus @default(PENDING_PAYMENT)
+  idempotencyKey  String?      @unique
+  payments        Payment[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId, status])
+  @@index([status, createdAt])
+}
+
+model Payment {
+  id                String        @id @default(uuid())
+  bookingId         String
+  booking           Booking       @relation(fields: [bookingId], references: [id])
+  provider          String        // sandbox | razorpay
+  providerOrderId   String
+  providerPaymentId String?
+  amount            Int
+  currency          String        @default("INR")
+  status            PaymentStatus @default(CREATED)
+  method            String?
+  failureReason     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([provider, providerOrderId])
+  @@index([bookingId])
+}
+
+model WebhookEvent {
+  id         String   @id @default(uuid())
+  provider   String
+  externalId String   // provider event id for idempotency
+  payload    Json
+  status     String   @default("RECEIVED") // RECEIVED | PROCESSED | SKIPPED_DUPLICATE | FAILED
+  processedAt DateTime?
+  createdAt  DateTime @default(now())
+
+  @@unique([provider, externalId])
+}
+
+// ─── Community ──────────────────────────────────────────────────────────────
+
+model Review {
+  id          String      @id @default(uuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  targetType  ReviewTarget
+  destinationId String?
+  destination Destination? @relation(fields: [destinationId], references: [id])
+  stayId      String?
+  stay        Stay?       @relation(fields: [stayId], references: [id])
+  packageId   String?
+  package     TourPackage? @relation(fields: [packageId], references: [id])
+  eventId     String?
+  rating      Int
+  title       String?
+  body        String
+  photos      String[]    @default([])
+  status      ReviewStatus @default(PENDING)
+  helpfulCount Int        @default(0)
+  reportCount Int         @default(0)
+  moderatorNote String?
+  partnerReply String?
+  repliedAt   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  helpfulVotes HelpfulVote[]
+
+  @@unique([userId, targetType, destinationId, stayId, packageId, eventId])
+  @@index([targetType, status, createdAt(sort: Desc)])
+}
+
+model HelpfulVote {
+  id       String @id @default(uuid())
+  reviewId String
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  userId   String
+  createdAt DateTime @default(now())
+
+  @@unique([reviewId, userId])
+}
+
+model Favorite {
+  id         String @id @default(uuid())
+  userId     String
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetType ReviewTarget
+  destinationId String?
+  destination Destination? @relation(fields: [destinationId], references: [id])
+  stayId     String?
+  stay       Stay?  @relation(fields: [stayId], references: [id])
+  eventId    String?
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, targetType, destinationId, stayId, eventId])
+}
+
+// ─── Gamification ───────────────────────────────────────────────────────────
+
+model RewardLedgerEntry {
+  id           String       @id @default(uuid())
+  userId       String
+  user         User         @relation(fields: [userId], references: [id])
+  action       LedgerAction
+  points       Int          // signed
+  reasonCode   String       // TRIP_COMPLETED, REVIEW_APPROVED, ...
+  description  String
+  refType      String?
+  refId        String?
+  balanceAfter Int
+  createdAt    DateTime     @default(now())
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([reasonCode, createdAt])
+}
+
+model Badge {
+  id           String @id @default(uuid())
+  code         String @unique
+  name         String
+  description  String
+  tier         String @default("BRONZE") // BRONZE | SILVER | GOLD | PLATINUM
+  icon         String @default("🏅")
+  criteriaJson Json   // declarative rule consumed by gamification engine
+
+  earnedBy UserBadge[]
+}
+
+model UserBadge {
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+  badgeId   String
+  badge     Badge  @relation(fields: [badgeId], references: [id])
+  earnedAt  DateTime @default(now())
+
+  @@id([userId, badgeId])
+}
+
+model Challenge {
+  id           String   @id @default(uuid())
+  code         String   @unique
+  name         String
+  description  String
+  rulesJson    Json
+  pointsReward Int
+  startsAt     DateTime
+  endsAt       DateTime
+  isActive     Boolean  @default(true)
+
+  participants UserChallenge[]
+}
+
+model UserChallenge {
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  challengeId String
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  progressJson Json     @default("{}")
+  completedAt DateTime?
+  joinedAt    DateTime  @default(now())
+
+  @@id([userId, challengeId])
+}
+
+// ─── Notifications ──────────────────────────────────────────────────────────
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  body      String
+  linkUrl   String?
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, readAt, createdAt(sort: Desc)])
+}
+
+model NotificationSetting {
+  userId   String @id
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  channels Json   @default("{\"inApp\":true,\"email\":true,\"push\":false,\"sms\":false}")
+  types    Json   @default("{}")
+}
+
+// ─── CMS & Configuration ────────────────────────────────────────────────────
+
+model ContentPage {
+  id             String        @id @default(uuid())
+  slug           String        @unique
+  title          String
+  excerpt        String?
+  body           String
+  locale         String        @default("en")
+  status         ContentStatus @default(DRAFT)
+  seoTitle       String?
+  seoDescription String?
+  authorUserId   String?
+  publishedAt    DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([status, publishedAt(sort: Desc)])
+}
+
+model Faq {
+  id        String @id @default(uuid())
+  question  String
+  answer    String
+  category  String @default("GENERAL")
+  sortOrder Int    @default(0)
+  locale    String @default("en")
+  isActive  Boolean @default(true)
+}
+
+model HomepageSection {
+  id         String  @id @default(uuid())
+  key        String  @unique
+  title      String
+  subtitle   String?
+  configJson Json
+  sortOrder  Int     @default(0)
+  isActive   Boolean @default(true)
+}
+
+model Config {
+  key        String   @id
+  value      Json
+  description String?
+  updatedByUserId String?
+  updatedAt  DateTime @updatedAt
+}
+
+model FeatureFlag {
+  key      String  @id
+  enabled  Boolean @default(false)
+  note     String?
+  updatedAt DateTime @updatedAt
+}
+
+// ─── AI, Analytics & Ops ────────────────────────────────────────────────────
+
+model ChatConversation {
+  id        String  @id @default(uuid())
+  userId    String?
+  user      User?   @relation(fields: [userId], references: [id])
+  sessionId String
+  language  String  @default("en")
+  messages  ChatMessage[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sessionId])
+  @@index([userId, updatedAt(sort: Desc)])
+}
+
+model ChatMessage {
+  id             String  @id @default(uuid())
+  conversationId String
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String // USER | ASSISTANT | SYSTEM | TOOL
+  content        String
+  toolName       String?
+  toolPayload    Json?
+  createdAt      DateTime @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+model AiUsageLog {
+  id               String   @id @default(uuid())
+  userId           String?
+  feature          String   // ASSISTANT | PLANNER | EXPLAIN | MODIFY
+  provider         String
+  model            String
+  promptTokens     Int?
+  completionTokens Int?
+  latencyMs        Int
+  estimatedCostUsd Float?
+  status           String   // OK | ERROR | BLOCKED_BUDGET | RATE_LIMITED
+  errorText        String?
+  cacheHit         Boolean  @default(false)
+  createdAt        DateTime @default(now())
+
+  @@index([feature, createdAt])
+  @@index([provider, model])
+}
+
+model AnalyticsEvent {
+  id          String   @id @default(cuid())
+  anonymousId String?
+  userId      String?
+  name        String
+  props       Json?
+  path        String?
+  referrer    String?
+  createdAt   DateTime @default(now())
+
+  @@index([name, createdAt])
+  @@index([userId, createdAt])
+}
+
+model SearchLog {
+  id          String   @id @default(uuid())
+  userId      String?
+  query       String
+  resultCount Int
+  filtersJson Json?
+  createdAt   DateTime @default(now())
+
+  @@index([query])
+  @@index([createdAt])
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  actorUserId  String?
+  actorEmail   String?
+  action       String
+  entityType   String
+  entityId     String?
+  before       Json?
+  after        Json?
+  ip           String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([actorUserId, createdAt(sort: Desc)])
+}
+
+model MediaAsset {
+  id          String   @id @default(uuid())
+  url         String
+  mediaType   String   @default("IMAGE")
+  ownerType   String?
+  ownerId     String?
+  altText     String?
+  uploadedByUserId String?
+  status      String   @default("ACTIVE") // ACTIVE | ORPHANED
+  createdAt   DateTime @default(now())
+
+  @@index([ownerType, ownerId])
+}
+
+model HealthProbe {
+  id        String   @id @default(uuid())
+  component String
+  status    String
+  latencyMs Int?
+  detail    String?
+  checkedAt DateTime @default(now())
+
+  @@index([component, checkedAt(sort: Desc)])
+}
