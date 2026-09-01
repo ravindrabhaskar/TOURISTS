@@ -48,7 +48,7 @@ export default async function TripDetailPage({
 
       <header className="mt-2 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl font-bold">{trip.title}</h1>
+          <h1 className="font-display text-3xl font-semibold">{trip.title}</h1>
           <p className="mt-1 text-sm text-ink-900/70">
             From {trip.originName} · {formatDate(trip.startDate)} – {formatDate(trip.endDate)} · {trip.adults} adult(s)
             {trip.children > 0 ? `, ${trip.children} child(ren)` : ""}
@@ -76,7 +76,7 @@ export default async function TripDetailPage({
         {trip.days_.map((day) => (
           <section key={day.id} aria-labelledby={`day-${day.dayNumber}`}>
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 id={`day-${day.dayNumber}`} className="font-display text-2xl font-bold">
+              <h2 id={`day-${day.dayNumber}`} className="font-display text-2xl font-semibold">
                 Day {day.dayNumber}
                 {day.clusterName ? <span className="ml-2 text-base font-normal text-ink-900/60">{day.clusterName}</span> : null}
               </h2>
@@ -165,7 +165,7 @@ export default async function TripDetailPage({
 
       {trip.bookings.length > 0 ? (
         <section className="mt-10" aria-labelledby="trip-bookings">
-          <h2 id="trip-bookings" className="font-display text-2xl font-bold">Linked bookings</h2>
+          <h2 id="trip-bookings" className="font-display text-2xl font-semibold">Linked bookings</h2>
           <ul className="mt-3 divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-surface text-sm">
             {trip.bookings.map((b) => (
               <li key={b.id} className="flex items-center justify-between px-5 py-3">

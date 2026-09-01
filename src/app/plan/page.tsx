@@ -30,8 +30,8 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
   }
 
   return (
-    <div className="container max-w-3xl py-10">
-      <h1 className="font-display text-4xl font-bold">AI Trip Planner</h1>
+    <div className="container-x max-w-3xl py-10">
+      <h1 className="font-display text-4xl font-semibold">AI Trip Planner</h1>
       <p className="mt-2 text-ink-900/70">
         The Sanchari engine builds a feasible, day-wise itinerary using real drive times, published opening hours and honest cost estimates — then you can adjust it any time.
       </p>

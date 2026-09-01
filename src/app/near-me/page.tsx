@@ -109,7 +109,7 @@ export default function NearMePage() {
           </p>
 
           <section aria-labelledby="nearby-places" className="mt-4">
-            <h2 id="nearby-places" className="font-display text-2xl font-bold">Nearby places</h2>
+            <h2 id="nearby-places" className="font-display text-2xl font-semibold">Nearby places</h2>
             {!loading && places.length === 0 ? (
               <p className="mt-3 rounded-xl border border-dashed border-sand-300 p-6 text-center text-sm text-ink-900/60">
                 Nothing published within {radius} km yet — try a wider radius.
@@ -138,7 +138,7 @@ export default function NearMePage() {
 
           {stays.length > 0 ? (
             <section aria-labelledby="nearby-stays" className="mt-8">
-              <h2 id="nearby-stays" className="font-display text-2xl font-bold">Stays nearby</h2>
+              <h2 id="nearby-stays" className="font-display text-2xl font-semibold">Stays nearby</h2>
               <ul className="mt-3 divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-surface">
                 {stays.map((s) => (
                   <li key={s.slug}>

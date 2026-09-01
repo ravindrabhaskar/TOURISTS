@@ -21,14 +21,14 @@ export default async function PayPage({ params }: { params: Promise<{ id: string
   if (booking.status === "CONFIRMED") redirect("/dashboard/bookings?paid=1");
 
   return (
-    <div className="container max-w-lg py-12">
+    <div className="container-x max-w-lg py-12">
       <Card className="overflow-hidden">
         <div className="bg-sand-100 px-6 py-4">
           <p className="text-xs font-bold uppercase tracking-widest text-spice-600">Sandbox payment gateway</p>
           <p className="mt-1 text-xs text-ink-900/60">Simulated checkout for demonstration — no real money moves until live credentials are configured.</p>
         </div>
         <div className="px-6 py-5">
-          <h1 className="font-display text-xl font-bold">{booking.titleSnapshot}</h1>
+          <h1 className="font-display text-xl font-semibold">{booking.titleSnapshot}</h1>
           <dl className="mt-4 space-y-1.5 text-sm">
             <div className="flex justify-between"><dt className="text-ink-900/60">Reference</dt><dd className="font-mono font-semibold">{booking.reference}</dd></div>
             <div className="flex justify-between"><dt className="text-ink-900/60">Starts</dt><dd>{booking.startsOn ? formatDate(booking.startsOn) : "—"}</dd></div>

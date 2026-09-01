@@ -60,7 +60,7 @@ export default async function EmergencyPage() {
 
       {alerts.length > 0 ? (
         <section aria-labelledby="alerts-heading" className="mb-10 space-y-3">
-          <h2 id="alerts-heading" className="font-display text-2xl font-bold">Active alerts</h2>
+          <h2 id="alerts-heading" className="font-display text-2xl font-semibold">Active alerts</h2>
           {alerts.map((a) => (
             <Card key={a.id} className={`border-l-4 p-5 ${a.severity === "CRITICAL" ? "border-l-danger bg-danger/10" : a.severity === "WARNING" ? "border-l-spice-500 bg-spice-50/60" : "border-l-coast-500 bg-coast-100/40"}`}>
               <p className="flex flex-wrap items-center gap-2 font-semibold">
@@ -76,7 +76,7 @@ export default async function EmergencyPage() {
       ) : null}
 
       <section aria-labelledby="contacts-heading">
-        <h2 id="contacts-heading" className="font-display text-2xl font-bold">Emergency contacts</h2>
+        <h2 id="contacts-heading" className="font-display text-2xl font-semibold">Emergency contacts</h2>
         <ul className="mt-4 grid gap-3 sm:grid-cols-2">
           {contacts.map((c) => (
             <li key={c.id}>

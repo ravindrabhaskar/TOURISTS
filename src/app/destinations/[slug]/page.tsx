@@ -13,6 +13,7 @@ import { formatINR, formatMinutes } from "@/lib/utils";
 import { db } from "@/server/db";
 import { getViewer } from "@/server/auth/guard";
 import type { OpeningHours } from "@/lib/opening-hours";
+import Frame from "@/components/ui/Frame";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -83,8 +84,21 @@ export default async function DestinationDetailPage({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* Hero */}
-      <section className={`bg-gradient-to-br ${gradientFor(d.slug)} text-white`}>
-        <div className="container py-14">
+      <section className={`relative isolate bg-gradient-to-br ${gradientFor(d.slug)} text-white`}>
+        <Frame
+          src={d.images?.[0]}
+          alt=""
+          fallbackSeed={`destination-${d.slug}`}
+          sizes="100vw"
+          priority
+          className="absolute inset-0 -z-10 h-full w-full"
+        />
+        {/* Keeps the headline legible over any photograph. */}
+        <span
+          aria-hidden
+          className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/60 to-black/40"
+        />
+        <div className="container-x py-14">
           <nav aria-label="Breadcrumb" className="text-sm text-white/80">
             <Link href="/destinations" className="hover:text-white">Destinations</Link>
             <span aria-hidden> / </span>
@@ -95,7 +109,7 @@ export default async function DestinationDetailPage({
             {d.isFeatured ? <Badge tone="brand" className="!bg-spice-500 !text-white">Featured</Badge> : null}
             {d.easyAccess ? <Badge tone="brand" className="!bg-white/15 !text-white">♿ Easy access</Badge> : null}
           </div>
-          <h1 className="mt-2 max-w-3xl font-display text-4xl font-bold sm:text-5xl">{d.name}</h1>
+          <h1 className="mt-2 max-w-3xl font-display text-4xl font-semibold sm:text-5xl">{d.name}</h1>
           {d.nameTe ? <p lang="te" className="mt-1 text-lg text-white/85">{d.nameTe}</p> : null}
           <p className="mt-4 max-w-2xl text-lg text-white/90">{d.summary}</p>
 
@@ -113,7 +127,7 @@ export default async function DestinationDetailPage({
         </div>
       </section>
 
-      <div className="container mt-10 grid gap-10 lg:grid-cols-[1fr_340px]">
+      <div className="container-x mt-10 grid gap-10 lg:grid-cols-[1fr_340px]">
         {/* Main column */}
         <div className="min-w-0">
           <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -132,14 +146,14 @@ export default async function DestinationDetailPage({
 
           {d.description ? (
             <section className="mt-8">
-              <h2 className="font-display text-2xl font-bold">About</h2>
+              <h2 className="font-display text-2xl font-semibold">About</h2>
               <p className="mt-3 whitespace-pre-line leading-relaxed text-ink-900/85">{d.description}</p>
             </section>
           ) : null}
 
           {hours.length > 0 ? (
             <section className="mt-8">
-              <h2 className="font-display text-2xl font-bold">Timings</h2>
+              <h2 className="font-display text-2xl font-semibold">Timings</h2>
               <ul className="mt-3 space-y-2">
                 {hours.map((w, i) => (
                   <li key={i} className="flex items-center justify-between rounded-xl bg-sand-100 px-4 py-2.5 text-sm">
@@ -281,7 +295,7 @@ export default async function DestinationDetailPage({
       </div>
 
       {d.events.length > 0 ? (
-        <section className="container mt-12">
+        <section className="container-x mt-12">
           <SectionHeading title="Events at this destination" />
           <div className="grid gap-4 md:grid-cols-2">
             {d.events.map((e) => (
@@ -292,7 +306,7 @@ export default async function DestinationDetailPage({
       ) : null}
 
       {related.length > 0 ? (
-        <section className="container mt-12">
+        <section className="container-x mt-12">
           <SectionHeading title="You may also like" />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {related.map((r) => (

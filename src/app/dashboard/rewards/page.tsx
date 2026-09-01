@@ -27,7 +27,7 @@ export default async function RewardsPage() {
       <Card className="mt-4 overflow-hidden">
         <div className="bg-gradient-to-br from-brand-600 to-coast-700 p-6 text-white">
           <p className="text-xs font-bold uppercase tracking-widest text-white/70">Level {level.level}</p>
-          <p className="font-display text-3xl font-bold">{level.name}</p>
+          <p className="font-display text-3xl font-semibold">{level.name}</p>
           <div className="mt-4 h-2.5 overflow-hidden rounded-full bg-white/25" role="progressbar" aria-valuenow={progressToNext} aria-valuemin={0} aria-valuemax={100}>
             <div className="h-full rounded-full bg-spice-400" style={{ width: `${progressToNext}%` }} />
           </div>
@@ -40,7 +40,7 @@ export default async function RewardsPage() {
 
       {/* Badges */}
       <section aria-labelledby="badges-heading" className="mt-10">
-        <h2 id="badges-heading" className="font-display text-2xl font-bold">Badges ({badges.length})</h2>
+        <h2 id="badges-heading" className="font-display text-2xl font-semibold">Badges ({badges.length})</h2>
         {badges.length === 0 ? (
           <p className="mt-2 rounded-xl border border-dashed border-sand-300 p-6 text-sm text-ink-900/60">
             Earn your first badge — plan a trip or publish a review.
@@ -65,7 +65,7 @@ export default async function RewardsPage() {
       <div className="mt-10 grid gap-10 lg:grid-cols-2">
         {/* Ledger */}
         <section aria-labelledby="ledger-heading">
-          <h2 id="ledger-heading" className="font-display text-2xl font-bold">Points activity</h2>
+          <h2 id="ledger-heading" className="font-display text-2xl font-semibold">Points activity</h2>
           {history.length === 0 ? (
             <p className="mt-2 rounded-xl border border-dashed border-sand-300 p-6 text-sm text-ink-900/60">No points yet.</p>
           ) : (
@@ -89,7 +89,7 @@ export default async function RewardsPage() {
         {/* Challenges + leaderboard */}
         <div>
           <section aria-labelledby="challenges-heading">
-            <h2 id="challenges-heading" className="font-display text-2xl font-bold">Live challenges</h2>
+            <h2 id="challenges-heading" className="font-display text-2xl font-semibold">Live challenges</h2>
             {challenges.length === 0 ? (
               <p className="mt-2 rounded-xl border border-dashed border-sand-300 p-6 text-sm text-ink-900/60">No active challenges right now.</p>
             ) : (

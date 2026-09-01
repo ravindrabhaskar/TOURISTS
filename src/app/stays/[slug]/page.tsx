@@ -9,6 +9,7 @@ import { getStayBySlug } from "@/server/domains/stays";
 import { getViewer } from "@/server/auth/guard";
 import { db } from "@/server/db";
 import { formatINR } from "@/lib/utils";
+import Frame from "@/components/ui/Frame";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -59,12 +60,24 @@ export default async function StayDetailPage({
     <div className="pb-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <section className={`bg-gradient-to-br ${gradientFor(s.slug)} text-white`}>
-        <div className="container py-12">
+      <section className={`relative isolate bg-gradient-to-br ${gradientFor(s.slug)} text-white`}>
+        <Frame
+          src={s.images?.[0]}
+          alt=""
+          fallbackSeed={`stay-${s.slug}`}
+          sizes="100vw"
+          priority
+          className="absolute inset-0 -z-10 h-full w-full"
+        />
+        <span
+          aria-hidden
+          className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/60 to-black/40"
+        />
+        <div className="container-x py-12">
           <nav aria-label="Breadcrumb" className="text-sm text-white/80">
             <Link href="/stays" className="hover:text-white">Stays</Link> <span aria-hidden>/</span> {s.name}
           </nav>
-          <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold">{s.name}</h1>
+          <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold">{s.name}</h1>
           <p className="mt-2 text-white/85">{typeof s.address === "string" ? s.address : ""} · {s.district.name}</p>
           <p className="mt-4 text-xl font-semibold">
             {formatINR(s.pricePerNightMin)} – {formatINR(s.pricePerNightMax)} <span className="text-sm font-normal text-white/80">per night</span>
@@ -79,11 +92,11 @@ export default async function StayDetailPage({
         </div>
       </section>
 
-      <div className="container mt-10 grid gap-10 lg:grid-cols-[1fr_320px]">
+      <div className="container-x mt-10 grid gap-10 lg:grid-cols-[1fr_320px]">
         <div className="min-w-0">
           {s.description ? <p className="leading-relaxed text-ink-900/85">{s.description}</p> : null}
 
-          <h2 className="mt-8 font-display text-2xl font-bold">Rooms</h2>
+          <h2 className="mt-8 font-display text-2xl font-semibold">Rooms</h2>
           <div role="note" className="mt-2 rounded-lg bg-sand-100 px-3 py-2 text-xs text-ink-900/70">
             Sandbox mode — availability simulated for demo. No real inventory is held until a channel manager is connected.
           </div>
@@ -120,7 +133,7 @@ export default async function StayDetailPage({
 
           {s.reviews.length > 0 ? (
             <section className="mt-10">
-              <h2 className="font-display text-2xl font-bold">Guest reviews</h2>
+              <h2 className="font-display text-2xl font-semibold">Guest reviews</h2>
               <div className="mt-4">
                 <ReviewsList
                   reviews={s.reviews.map((r) => ({

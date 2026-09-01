@@ -55,7 +55,7 @@ export default async function DashboardPage() {
 
       {upcomingTrip ? (
         <section className="mt-10" aria-labelledby="next-trip-heading">
-          <h2 id="next-trip-heading" className="font-display text-2xl font-bold">Your next adventure</h2>
+          <h2 id="next-trip-heading" className="font-display text-2xl font-semibold">Your next adventure</h2>
           <Card className="mt-3 flex flex-wrap items-center justify-between gap-4 p-6">
             <div>
               <p className="font-semibold text-lg">{upcomingTrip.title}</p>
@@ -72,7 +72,7 @@ export default async function DashboardPage() {
       ) : (
         <section className="mt-10 rounded-2xl border border-dashed border-sand-300 p-10 text-center">
           <p className="text-4xl">✨</p>
-          <h2 className="mt-2 font-display text-xl font-bold">No trips planned yet</h2>
+          <h2 className="mt-2 font-display text-xl font-semibold">No trips planned yet</h2>
           <p className="mx-auto mt-1 max-w-md text-sm text-ink-900/70">
             Tell the AI planner your dates and interests — it builds a realistic day-wise itinerary with costs.
           </p>

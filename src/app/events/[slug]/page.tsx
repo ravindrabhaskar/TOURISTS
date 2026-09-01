@@ -38,14 +38,14 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
   };
 
   return (
-    <div className="container max-w-3xl py-12">
+    <div className="container-x max-w-3xl py-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <nav aria-label="Breadcrumb" className="text-sm text-ink-900/60">
         <Link href="/events" className="hover:text-brand-700">Events</Link> <span aria-hidden>/</span> {e.title}
       </nav>
 
       <Badge tone="spice" className="mt-4 capitalize">{e.category.toLowerCase().replace(/_/g, " ")}</Badge>
-      <h1 className="mt-2 font-display text-4xl font-bold">{e.title}</h1>
+      <h1 className="mt-2 font-display text-4xl font-semibold">{e.title}</h1>
       <p className="mt-1 text-lg text-ink-900/70">{formatDate(e.startDate)} – {formatDate(e.endDate)}</p>
 
       {e.description ? <p className="mt-6 leading-relaxed text-ink-900/85">{e.description}</p> : null}

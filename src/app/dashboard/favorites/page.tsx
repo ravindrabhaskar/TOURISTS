@@ -45,7 +45,7 @@ export default async function FavoritesPage() {
       />
 
       <section aria-labelledby="fav-t" className="mt-6">
-        <h2 id="fav-t" className="font-display text-xl font-bold">Trips ({trips.length})</h2>
+        <h2 id="fav-t" className="font-display text-xl font-semibold">Trips ({trips.length})</h2>
         {trips.length === 0 ? (
           <p className="mt-2 rounded-xl border border-dashed border-sand-300 p-6 text-sm text-ink-900/60">
             Nothing shortlisted yet — tap ♡ on any{" "}
@@ -61,7 +61,7 @@ export default async function FavoritesPage() {
       </section>
 
       <section aria-labelledby="fav-d" className="mt-10">
-        <h2 id="fav-d" className="font-display text-xl font-bold">Places ({dests.length})</h2>
+        <h2 id="fav-d" className="font-display text-xl font-semibold">Places ({dests.length})</h2>
         {dests.length === 0 ? (
           <p className="mt-2 rounded-xl border border-dashed border-sand-300 p-6 text-sm text-ink-900/60">
             Nothing saved yet — tap ♡ on any destination.
@@ -81,7 +81,7 @@ export default async function FavoritesPage() {
       </section>
 
       <section aria-labelledby="fav-s" className="mt-10">
-        <h2 id="fav-s" className="font-display text-xl font-bold">Stays ({stays.length})</h2>
+        <h2 id="fav-s" className="font-display text-xl font-semibold">Stays ({stays.length})</h2>
         {stays.length === 0 ? (
           <p className="mt-2 rounded-xl border border-dashed border-sand-300 p-6 text-sm text-ink-900/60">No saved stays yet.</p>
         ) : (

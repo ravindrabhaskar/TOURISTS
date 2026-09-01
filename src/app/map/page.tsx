@@ -23,7 +23,7 @@ export default async function MapPage() {
   }
 
   return (
-    <div className="container py-10">
+    <div className="container-x py-10">
       <PageHeader
         eyebrow="Explore"
         title="On the map"

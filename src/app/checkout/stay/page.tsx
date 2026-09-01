@@ -23,9 +23,9 @@ export default async function StayCheckoutPage({ searchParams }: { searchParams:
   if (!room || room.stay.slug !== sp.slug) notFound();
 
   return (
-    <div className="container max-w-lg py-12">
+    <div className="container-x max-w-lg py-12">
       <Card className="p-8">
-        <h1 className="font-display text-2xl font-bold">Book your stay</h1>
+        <h1 className="font-display text-2xl font-semibold">Book your stay</h1>
         <p className="mt-1 text-sm text-ink-900/70">
           {room.stay.name} — {room.name}
         </p>
