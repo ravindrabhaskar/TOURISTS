@@ -1,8 +1,9 @@
 import { db } from "@/server/db";
 import { errors } from "@/lib/http";
+import { getVisibleTrips } from "@/lib/server/content";
 
 export type UniversalHit = {
-  kind: "destination" | "stay" | "event" | "district" | "guide";
+  kind: "destination" | "stay" | "event" | "district" | "guide" | "trip";
   id: string;
   slug: string;
   title: string;
@@ -16,6 +17,32 @@ export type UniversalHit = {
 export async function universalSearch(qRaw: string, limit = 8): Promise<UniversalHit[]> {
   const q = qRaw.trim();
   if (q.length < 2) return [];
+
+  const needle = q.toLowerCase();
+
+  // Curated trips are editorial content rather than database rows, so they are
+  // matched in-process and folded into the same result set.
+  const tripHits = await getVisibleTrips()
+    .then((trips) =>
+      trips
+        .filter((t) =>
+          [t.name, t.blurb, t.region, t.country, ...t.tags, ...t.startCities]
+            .join(" ")
+            .toLowerCase()
+            .includes(needle),
+        )
+        .slice(0, limit)
+        .map((t) => ({
+          kind: "trip" as const,
+          id: t.slug,
+          slug: t.slug,
+          title: t.name,
+          subtitle: t.blurb,
+          meta: `${t.region} · ${t.days} days`,
+          href: `/trips/${t.slug}`,
+        })),
+    )
+    .catch(() => [] as UniversalHit[]);
 
   const [dests, stays, events, districts, guides] = await Promise.all([
     db.destination.findMany({
@@ -60,6 +87,7 @@ export async function universalSearch(qRaw: string, limit = 8): Promise<Universa
   ]);
 
   const hits: UniversalHit[] = [
+    ...tripHits,
     ...dests.map((d) => ({ kind: "destination" as const, id: d.id, slug: d.slug, title: d.name, subtitle: d.summary, meta: d.district.name, href: `/destinations/${d.slug}` })),
     ...events.map((e) => ({ kind: "event" as const, id: e.id, slug: e.slug, title: e.title, meta: `${e.district.name} · ${new Date(e.startDate).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}`, href: `/events/${e.slug}` })),
     ...stays.map((s) => ({ kind: "stay" as const, id: s.id, slug: s.slug, title: s.name, meta: `${s.type.charAt(0)}${s.type.slice(1).toLowerCase()} · ${s.district.name}`, href: `/stays/${s.slug}` })),

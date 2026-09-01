@@ -730,9 +730,13 @@ model Favorite {
   stayId     String?
   stay       Stay?  @relation(fields: [stayId], references: [id])
   eventId    String?
+  // Curated trips live in the editorial catalogue (src/lib/data/trips.ts), not
+  // in TourPackage, so a shortlisted trip is referenced by slug rather than FK.
+  packageSlug String?
   createdAt  DateTime @default(now())
 
-  @@unique([userId, targetType, destinationId, stayId, eventId])
+  @@unique([userId, targetType, destinationId, stayId, eventId, packageSlug])
+  @@index([userId, targetType])
 }
 
 // ─── Gamification ───────────────────────────────────────────────────────────

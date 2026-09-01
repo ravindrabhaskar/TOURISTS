@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { hasAdminSession } from "@/lib/server/session";
+import { getViewer } from "@/server/auth/guard";
+import { can } from "@/server/auth/rbac";
 import { seedIfEmpty, listEnquiries } from "@/lib/server/db";
 import { readOverrides } from "@/lib/server/content";
 import { TRIPS } from "@/lib/data/trips";
@@ -14,7 +16,11 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const authed = await hasAdminSession();
+  // Two ways in: a platform account carrying admin.dashboard, or the shared
+  // desk password for planners who have no platform account. Previously only
+  // the password worked, so signed-in admins were asked to log in twice.
+  const [deskSession, viewer] = await Promise.all([hasAdminSession(), getViewer()]);
+  const authed = deskSession || can(viewer?.role, "admin.dashboard");
   if (!authed) {
     return <AdminLogin hint={process.env.ADMIN_PASSWORD ? undefined : "sanchari"} />;
   }

@@ -5,6 +5,9 @@ import { SITE } from "@/lib/data/site";
 
 export type StoredEnquiry = EnquiryRecord & {
   utm?: Record<string, string>;
+  /** Set when the enquiry was raised by a signed-in traveller, so the operator
+   *  desk and the traveller's dashboard are talking about the same enquiry. */
+  userId?: string;
 };
 
 const DIR = process.env.DATA_DIR || path.join(process.cwd(), ".data");
@@ -62,12 +65,12 @@ function demoEnquiries(): StoredEnquiry[] {
     };
   };
   return [
-    mk("TW-K7M2PX", 1, "Ananya Rao", "ananya.r@example.com", "ladakh-high-passes", 2, "new", 97000),
-    mk("TW-Q4T8LD", 2, "Vikram Sethi", "v.sethi@example.com", "kenya-masai-mara", 4, "planning", 512000),
-    mk("TW-H3N9WB", 5, "Fatima Sheikh", "fatima.s@example.com", "kerala-backwaters-hills", 6, "quoted", 165720),
-    mk("TW-D8R5JC", 8, "Nikhil Bose", "nikhil.b@example.com", "bali-nusa-islands", 2, "confirmed", 99600),
-    mk("TW-M6Y2KA", 12, "Ishita Ghosh", "ishita.g@example.com", "meghalaya-root-bridges", 3, "new", 85500),
-    mk("TW-P2C7VE", 15, "Rohan Kulkarni", "rohan.k@example.com", "switzerland-alps-rail", 2, "archived", 336000),
+    mk("SAN-K7M2PX", 1, "Ananya Rao", "ananya.r@example.com", "ladakh-high-passes", 2, "new", 97000),
+    mk("SAN-Q4T8LD", 2, "Vikram Sethi", "v.sethi@example.com", "kenya-masai-mara", 4, "planning", 512000),
+    mk("SAN-H3N9WB", 5, "Fatima Sheikh", "fatima.s@example.com", "kerala-backwaters-hills", 6, "quoted", 165720),
+    mk("SAN-D8R5JC", 8, "Nikhil Bose", "nikhil.b@example.com", "bali-nusa-islands", 2, "confirmed", 99600),
+    mk("SAN-M6Y2KA", 12, "Ishita Ghosh", "ishita.g@example.com", "meghalaya-root-bridges", 3, "new", 85500),
+    mk("SAN-P2C7VE", 15, "Rohan Kulkarni", "rohan.k@example.com", "switzerland-alps-rail", 2, "archived", 336000),
   ];
 }
 
@@ -107,6 +110,24 @@ export async function mutateEnquiry(
   list[idx] = { ...existing, ...patch };
   await writeAll(list);
   return true;
+}
+
+/**
+ * Enquiries belonging to a traveller, for their dashboard.
+ *
+ * Always matches on account id. Also matches on email — so enquiries raised
+ * before signing up still surface — but ONLY for a verified address, otherwise
+ * registering with someone else's email would expose their enquiry details.
+ */
+export async function listEnquiriesForUser(
+  userId: string,
+  verifiedEmail: string | null,
+): Promise<StoredEnquiry[]> {
+  const wanted = verifiedEmail?.trim().toLowerCase();
+  const list = await readAll();
+  return list.filter(
+    (r) => r.userId === userId || (wanted ? r.email.toLowerCase() === wanted : false),
+  );
 }
 
 export async function findStored(ref: string, email: string) {

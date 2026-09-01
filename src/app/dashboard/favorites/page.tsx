@@ -4,6 +4,8 @@ import { requireViewer } from "@/server/auth/guard";
 import { FavoriteButton } from "@/components/catalog/favorite-button";
 import { DestinationCard, gradientFor } from "@/components/catalog/cards";
 import { Card } from "@/components/ui/primitives";
+import TripCard from "@/components/trips/TripCard";
+import { getVisibleTrips } from "@/lib/server/content";
 
 export const metadata = { title: "Favourites" };
 export const dynamic = "force-dynamic";
@@ -22,11 +24,37 @@ export default async function FavoritesPage() {
   const dests = favs.filter((f) => f.targetType === "DESTINATION" && f.destination);
   const stays = favs.filter((f) => f.targetType === "STAY" && f.stay);
 
+  // Shortlisted trips are stored by slug and resolved against the editorial
+  // catalogue, so the shortlist and this page show the same set.
+  const catalogue = await getVisibleTrips().catch(() => []);
+  const trips = favs
+    .filter((f) => f.targetType === "PACKAGE" && f.packageSlug)
+    .flatMap((f) => {
+      const trip = catalogue.find((t) => t.slug === f.packageSlug);
+      return trip ? [trip] : [];
+    });
+
   return (
     <div>
       <h1 className="font-display text-3xl font-bold">Favourites</h1>
 
-      <section aria-labelledby="fav-d" className="mt-6">
+      <section aria-labelledby="fav-t" className="mt-6">
+        <h2 id="fav-t" className="font-display text-xl font-bold">Trips ({trips.length})</h2>
+        {trips.length === 0 ? (
+          <p className="mt-2 rounded-xl border border-dashed border-sand-300 p-6 text-sm text-ink-900/60">
+            Nothing shortlisted yet — tap ♡ on any{" "}
+            <Link href="/trips" className="font-semibold text-brand-700">curated trip</Link>.
+          </p>
+        ) : (
+          <div className="mt-3 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            {trips.map((t) => (
+              <TripCard key={t.slug} trip={t} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section aria-labelledby="fav-d" className="mt-10">
         <h2 id="fav-d" className="font-display text-xl font-bold">Places ({dests.length})</h2>
         {dests.length === 0 ? (
           <p className="mt-2 rounded-xl border border-dashed border-sand-300 p-6 text-sm text-ink-900/60">

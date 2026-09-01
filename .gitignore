@@ -17,6 +17,9 @@ next-env.d.ts
 # databases (embedded dev db)
 .dbdata/
 
+# operator desk store (enquiries + trip overrides) — runtime data, not source
+.data/
+
 # testing
 coverage/
 

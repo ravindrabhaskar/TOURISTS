@@ -8,6 +8,7 @@ import { makeRef } from "@/lib/format";
 import { estimateTotal } from "@/lib/departures";
 import { getMergedTrip } from "@/lib/server/content";
 import { sendMail, travellerConfirmation, internalNotification } from "@/lib/server/email";
+import { getViewer } from "@/server/auth/guard";
 
 async function clientIp(): Promise<string> {
   const h = await headers();
@@ -37,7 +38,7 @@ export async function createEnquiry(
   const data = parsed.data;
 
   if ((data.company_website ?? "") !== "" || data.elapsedMs < 2500) {
-    return { ok: true, ref: "TW-XXXXXX", estTotal: 0 };
+    return { ok: true, ref: "SAN-XXXXXX", estTotal: 0 };
   }
 
   const ip = await clientIp();
@@ -59,6 +60,10 @@ export async function createEnquiry(
 
   const est = estimateTotal(trip.priceInr, data.travellers, dep);
 
+  // Stamp the account when the traveller is signed in, so the enquiry shows on
+  // their dashboard rather than being reachable only by reference lookup.
+  const viewer = await getViewer();
+
   const rec = {
     ref: makeRef(),
     createdAt: new Date().toISOString(),
@@ -73,6 +78,7 @@ export async function createEnquiry(
     message: data.message || undefined,
     status: "new" as const,
     note: "",
+    ...(viewer ? { userId: viewer.id } : {}),
     ...(Object.keys(data.utm ?? {}).length > 0 ? { utm: data.utm } : {}),
   };
 

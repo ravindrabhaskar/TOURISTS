@@ -13,8 +13,21 @@ import {
 } from "@/lib/server/session";
 import { mutateEnquiry, resetEnquiries } from "@/lib/server/db";
 import { writeOverride } from "@/lib/server/content";
+import { getViewer } from "@/server/auth/guard";
+import { can } from "@/server/auth/rbac";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "sanchari";
+
+/**
+ * Desk access: either the shared operator password (for planners with no
+ * platform account) or a platform account carrying admin.dashboard. Every
+ * mutation below goes through this so the two routes in stay equivalent.
+ */
+async function hasDeskAccess(): Promise<boolean> {
+  if (await hasAdminSession()) return true;
+  const viewer = await getViewer();
+  return can(viewer?.role, "admin.dashboard");
+}
 
 function safeEqual(a: string, b: string): boolean {
   const ab = Buffer.from(a);
@@ -60,7 +73,7 @@ const statusSchema = z.object({
 });
 
 export async function setStatusAction(input: z.infer<typeof statusSchema>) {
-  if (!(await hasAdminSession())) return { ok: false };
+  if (!(await hasDeskAccess())) return { ok: false };
   const parsed = statusSchema.parse(input);
   const ok = await mutateEnquiry(parsed.ref, { status: parsed.status });
   revalidatePath("/admin");
@@ -68,7 +81,7 @@ export async function setStatusAction(input: z.infer<typeof statusSchema>) {
 }
 
 export async function saveNoteAction(ref: string, note: string) {
-  if (!(await hasAdminSession())) return { ok: false };
+  if (!(await hasDeskAccess())) return { ok: false };
   const clean = z.string().trim().max(400).parse(note);
   const ok = await mutateEnquiry(ref, { note: clean });
   revalidatePath("/admin");
@@ -76,7 +89,7 @@ export async function saveNoteAction(ref: string, note: string) {
 }
 
 export async function resetDemoAction() {
-  if (!(await hasAdminSession())) return { ok: false };
+  if (!(await hasDeskAccess())) return { ok: false };
   await resetEnquiries();
   revalidatePath("/admin");
   return { ok: true };
@@ -90,7 +103,7 @@ const overrideSchema = z.object({
 });
 
 export async function saveOverrideAction(input: z.infer<typeof overrideSchema>) {
-  if (!(await hasAdminSession())) return { ok: false };
+  if (!(await hasDeskAccess())) return { ok: false };
   const parsed = overrideSchema.parse(input);
   const patch: Record<string, unknown> = {};
   if (parsed.priceInr !== undefined) patch.priceInr = parsed.priceInr;

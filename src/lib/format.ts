@@ -44,7 +44,7 @@ export function makeRef(): string {
   for (let i = 0; i < 6; i++) {
     s += alphabet[Math.floor(Math.random() * alphabet.length)];
   }
-  return `TW-${s}`;
+  return `SAN-${s}`;
 }
 
 export function csvEscape(v: string): string {

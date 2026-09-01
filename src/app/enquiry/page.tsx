@@ -113,7 +113,7 @@ function LookupInner() {
           <input
             value={ref}
             onChange={(e) => setRef(e.target.value.toUpperCase())}
-            placeholder="TW-XXXXXX"
+            placeholder="SAN-XXXXXX"
             className="field font-mono uppercase"
             aria-label="Enquiry reference"
             required

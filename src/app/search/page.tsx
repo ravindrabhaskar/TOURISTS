@@ -21,7 +21,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
   return (
     <div className="container py-10">
-      <SectionHeading title="Search" subtitle="One box for destinations, events, stays and districts." />
+      <SectionHeading title="Search" subtitle="One box for curated trips, destinations, events, stays and districts." />
 
       <form action="/search" method="get" className="mb-8 flex gap-3">
         <input

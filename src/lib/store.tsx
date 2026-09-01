@@ -135,6 +135,8 @@ interface ShortlistCtx {
   toggle: (slug: string) => void;
   clear: () => void;
   ready: boolean;
+  /** True once the list is backed by the signed-in account rather than this device. */
+  synced: boolean;
 }
 
 const ShortlistContext = createContext<ShortlistCtx | null>(null);
@@ -142,33 +144,78 @@ const ShortlistContext = createContext<ShortlistCtx | null>(null);
 export function ShortlistProvider({ children }: { children: ReactNode }) {
   const [slugs, setSlugs] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
+  const [synced, setSynced] = useState(false);
 
+  // Read the device list first so the UI is correct immediately, then merge it
+  // into the account. Signed out, the POST returns slugs:null and we stay local.
   useEffect(() => {
-    const id = requestAnimationFrame(() => {
-      try {
-        const raw = localStorage.getItem("tw-shortlist");
-        if (raw) setSlugs(JSON.parse(raw));
-      } catch {}
-      setReady(true);
-    });
-    return () => cancelAnimationFrame(id);
+    let alive = true;
+    let local: string[] = [];
+    try {
+      const raw = localStorage.getItem("tw-shortlist");
+      if (raw) local = JSON.parse(raw);
+    } catch {}
+    if (local.length > 0) setSlugs(local);
+    setReady(true);
+
+    fetch("/api/v1/shortlist", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ slugs: local }),
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((body) => {
+        const merged: string[] | null = body?.data?.slugs ?? null;
+        if (!alive || merged === null) return;
+        setSynced(true);
+        setSlugs(merged);
+        try {
+          localStorage.setItem("tw-shortlist", JSON.stringify(merged));
+        } catch {}
+      })
+      .catch(() => {});
+
+    return () => {
+      alive = false;
+    };
   }, []);
 
+  // localStorage stays the source of truth for signed-out visitors and doubles
+  // as an offline cache for signed-in ones, so it is always written.
   const persist = (next: string[]) => {
     setSlugs(next);
-    localStorage.setItem("tw-shortlist", JSON.stringify(next));
+    try {
+      localStorage.setItem("tw-shortlist", JSON.stringify(next));
+    } catch {}
+  };
+
+  const push = (slug: string, action: "add" | "remove") => {
+    if (!synced) return;
+    fetch("/api/v1/shortlist", {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ slug, action }),
+    }).catch(() => {});
   };
 
   const value = useMemo<ShortlistCtx>(
     () => ({
       slugs,
       ready,
+      synced,
       has: (slug) => slugs.includes(slug),
-      toggle: (slug) =>
-        persist(slugs.includes(slug) ? slugs.filter((s) => s !== slug) : [...slugs, slug]),
-      clear: () => persist([]),
+      toggle: (slug) => {
+        const had = slugs.includes(slug);
+        persist(had ? slugs.filter((s) => s !== slug) : [...slugs, slug]);
+        push(slug, had ? "remove" : "add");
+      },
+      clear: () => {
+        for (const slug of slugs) push(slug, "remove");
+        persist([]);
+      },
     }),
-    [slugs, ready],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [slugs, ready, synced],
   );
 
   return <ShortlistContext.Provider value={value}>{children}</ShortlistContext.Provider>;

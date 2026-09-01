@@ -23,8 +23,11 @@ export default function SavedPage() {
             {trips.length > 0 ? `${trips.length} trip${trips.length > 1 ? "s" : ""} you're circling` : "Nothing saved yet"}
           </h1>
           <p className="mt-3 text-muted">
-            Shortlists live on this device. Enquire and they travel with the enquiry,
-            so one reply can cover the whole debate.
+            {shortlist.synced
+              ? "Saved to your account, so this list follows you between devices."
+              : "Saved on this device. Sign in and it moves to your account."}{" "}
+            Enquire and they travel with the enquiry, so one reply can cover the
+            whole debate.
           </p>
         </div>
         {trips.length > 0 && (
