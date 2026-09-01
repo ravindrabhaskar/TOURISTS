@@ -1,9 +1,8 @@
 "use server";
 
 import { db } from "@/server/db";
-import { errors } from "@/lib/http";
 import { hashPassword, verifyPassword, passwordPolicyError } from "@/server/auth/password";
-import { setSessionCookie, clearSessionCookie, type SessionPayload } from "@/server/auth/session";
+import { setSessionCookie, clearSessionCookie } from "@/server/auth/session";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { rateLimit } from "@/lib/rate-limit";

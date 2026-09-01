@@ -46,8 +46,10 @@ export default async function DestinationsPage({
       district: sp.district,
       type: (sp.type as DestinationType) || undefined,
       category: sp.category,
-      easyAccess: sp.easyAccess === "true",
-      familyFriendly: sp.familyFriendly === "true",
+      // Absent means "no preference" — sending false filters the list down to
+      // rows explicitly flagged false, which hid the whole catalogue.
+      easyAccess: sp.easyAccess === "true" ? true : undefined,
+      familyFriendly: sp.familyFriendly === "true" ? true : undefined,
       sort: (sp.sort as "popularity" | "rating" | "name") || "popularity",
       page,
       pageSize: 12,

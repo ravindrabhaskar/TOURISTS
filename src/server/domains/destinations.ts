@@ -19,7 +19,7 @@ export type DestinationListFilters = {
 
 const LIST_SELECT = {
   id: true, slug: true, name: true, nameTe: true, type: true, summary: true,
-  lat: true, lng: true, heroGradient: true, categories: true, tags: true,
+  lat: true, lng: true, heroGradient: true, images: true, categories: true, tags: true,
   ratingAvg: true, ratingCount: true, popularityScore: true, entryFeeAdult: true,
   visitDurationMin: true, bestTimeToVisit: true, easyAccess: true, familyFriendly: true,
   district: { select: { name: true, slug: true } },

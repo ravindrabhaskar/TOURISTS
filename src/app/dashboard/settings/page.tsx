@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import { getViewer } from "@/server/auth/guard";
+import { requireViewer } from "@/server/auth/guard";
 import { updateSettingsAction } from "@/server/actions/user";
 import { Card } from "@/components/ui/primitives";
 
@@ -10,7 +10,7 @@ const INTERESTS = ["temples", "beaches", "heritage", "food", "photography", "wil
 
 export default async function SettingsPage({ searchParams }: { searchParams: Promise<{ saved?: string; error?: string }> }) {
   const sp = await searchParams;
-  const viewer = (await getViewer())!;
+  const viewer = await requireViewer();
   const user = await db.user.findUniqueOrThrow({ where: { id: viewer.id }, select: { name: true, preferredLanguage: true, travelPace: true, foodPreference: true, interests: true } });
 
   return (

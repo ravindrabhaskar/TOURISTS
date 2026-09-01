@@ -15,7 +15,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
   if (!viewer) redirect(`/signin?next=/plan${sp.place ? `%3Fplace%3D${sp.place}` : ""}`);
 
   // Pre-fill origin from a destination context when arriving via "Plan around here".
-  let preferredSlugs: string[] = sp.place ? [sp.place] : [];
+  const preferredSlugs: string[] = sp.place ? [sp.place] : [];
   let originName = sp.origin ?? "";
   let originLat = sp.lat ? Number(sp.lat) : NaN;
   let originLng = sp.lng ? Number(sp.lng) : NaN;

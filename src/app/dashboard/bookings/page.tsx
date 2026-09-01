@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getViewer } from "@/server/auth/guard";
+import { requireViewer } from "@/server/auth/guard";
 import { listUserBookings } from "@/server/domains/bookings";
 import { cancelBookingAction } from "@/server/actions/user";
 import { Card } from "@/components/ui/primitives";
@@ -19,7 +19,7 @@ const STATUS_STYLE: Record<string, string> = {
 
 export default async function BookingsPage({ searchParams }: { searchParams: Promise<{ paid?: string; error?: string; cancelled?: string }> }) {
   const sp = await searchParams;
-  const viewer = (await getViewer())!;
+  const viewer = await requireViewer();
   const bookings = await listUserBookings(viewer.id);
 
   return (

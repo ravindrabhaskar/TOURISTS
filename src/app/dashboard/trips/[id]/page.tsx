@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getViewer } from "@/server/auth/guard";
+import { requireViewer } from "@/server/auth/guard";
 import { getTripForOwner } from "@/server/domains/trips/service";
 import { loadCandidates } from "@/server/domains/trips/service";
 import { applyTripModificationAction } from "@/server/actions/user";
@@ -28,7 +28,7 @@ export default async function TripDetailPage({
 }) {
   const { id } = await params;
   const sp = await searchParams;
-  const viewer = (await getViewer())!;
+  const viewer = await requireViewer();
 
   let trip: Awaited<ReturnType<typeof getTripForOwner>>;
   try {

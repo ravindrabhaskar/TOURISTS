@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import { db } from "@/server/db";
-import { handle, ok, fail } from "@/lib/http";
+import { ok, fail } from "@/lib/http";
 import { logger } from "@/lib/logger";
 import { paymentAdapter } from "@/server/integrations/payments";
 import { confirmPayment, failPayment } from "@/server/domains/bookings";

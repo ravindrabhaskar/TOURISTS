@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { db } from "@/server/db";
 import { readSession } from "./session";
 import { can, type Permission, type Role } from "./rbac";
@@ -32,6 +33,17 @@ export async function requirePermission(permission: Permission): Promise<Current
   const user = await requireUser();
   if (!can(user.role, permission)) throw errors.forbidden();
   return user;
+}
+
+/**
+ * For signed-in server components. Middleware already gates these routes, but
+ * the page body still runs before the redirect lands — so redirect here too
+ * rather than asserting non-null and throwing on every signed-out request.
+ */
+export async function requireViewer(): Promise<CurrentUser> {
+  const viewer = await getViewer();
+  if (!viewer) redirect("/signin");
+  return viewer;
 }
 
 /** For server components / layouts — returns null instead of throwing. */

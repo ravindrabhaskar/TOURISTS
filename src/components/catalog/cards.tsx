@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Frame from "@/components/ui/Frame";
 import { Card } from "@/components/ui/primitives";
 import { formatINR, formatMinutes, formatDate } from "@/lib/utils";
 
@@ -22,15 +23,24 @@ export function typeLabel(t: string): string {
 type DestCardData = {
   slug: string; name: string; type: string; summary: string;
   ratingAvg: number; entryFeeAdult: number | null; visitDurationMin?: number;
+  images?: string[];
   district?: { name: string; slug: string } | null;
 };
 
-export function DestinationCard({ d, i = 0 }: { d: DestCardData; i?: number }) {
+export function DestinationCard({ d }: { d: DestCardData }) {
   return (
     <Link href={`/destinations/${d.slug}`} className="group block h-full">
       <Card className="h-full overflow-hidden transition-shadow group-hover:shadow-lift">
-        <div className={`flex h-36 items-end bg-gradient-to-br ${gradientFor(d.slug)} p-4`}>
-          <span className="rounded-lg bg-white/90 px-2 py-1 text-xs font-semibold capitalize text-ink-900">
+        <div className={`relative h-36 bg-gradient-to-br ${gradientFor(d.slug)}`}>
+          <Frame
+            src={d.images?.[0]}
+            alt=""
+            fallbackSeed={`destination-${d.slug}`}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="h-full w-full [&>img]:transition-transform [&>img]:duration-500 group-hover:[&>img]:scale-105"
+          />
+          <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
+          <span className="absolute bottom-4 left-4 rounded-lg bg-white/90 px-2 py-1 text-xs font-semibold capitalize text-ink-900">
             {typeLabel(d.type)}
           </span>
         </div>
@@ -86,7 +96,7 @@ export function EventCard({ e }: { e: EventCardData }) {
 type StayCardData = {
   slug: string; name: string; type: string; address?: string | string[];
   pricePerNightMin: number; pricePerNightMax: number; priceLevel: string;
-  ratingAvg: number; verification?: string;
+  ratingAvg: number; verification?: string; images?: string[];
   amenities?: string[]; distanceKm?: number;
   district?: { name: string; slug: string } | null;
 };
@@ -95,8 +105,16 @@ export function StayCard({ s }: { s: StayCardData }) {
   return (
     <Link href={`/stays/${s.slug}`} className="group block h-full">
       <Card className="h-full overflow-hidden transition-shadow group-hover:shadow-lift">
-        <div className={`flex h-28 items-end bg-gradient-to-br ${gradientFor(s.slug)} p-4`}>
-          <span className="rounded-lg bg-white/90 px-2 py-1 text-xs font-semibold capitalize text-ink-900">
+        <div className={`relative h-28 bg-gradient-to-br ${gradientFor(s.slug)}`}>
+          <Frame
+            src={s.images?.[0]}
+            alt=""
+            fallbackSeed={`stay-${s.slug}`}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="h-full w-full [&>img]:transition-transform [&>img]:duration-500 group-hover:[&>img]:scale-105"
+          />
+          <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
+          <span className="absolute bottom-4 left-4 rounded-lg bg-white/90 px-2 py-1 text-xs font-semibold capitalize text-ink-900">
             {typeLabel(s.type)}
           </span>
         </div>

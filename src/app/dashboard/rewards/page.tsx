@@ -1,4 +1,4 @@
-import { getViewer } from "@/server/auth/guard";
+import { requireViewer } from "@/server/auth/guard";
 import { getBalance, getHistory, levelFor, listChallenges, leaderboard } from "@/server/domains/gamification";
 import { db } from "@/server/db";
 import { Card, SectionHeading } from "@/components/ui/primitives";
@@ -7,7 +7,7 @@ export const metadata = { title: "Rewards" };
 export const dynamic = "force-dynamic";
 
 export default async function RewardsPage() {
-  const viewer = (await getViewer())!;
+  const viewer = await requireViewer();
   const [balance, history, badges, challenges, top] = await Promise.all([
     getBalance(viewer.id),
     getHistory(viewer.id),

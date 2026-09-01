@@ -17,7 +17,7 @@ export type StayFilters = {
 const CARD = {
   id: true, slug: true, name: true, type: true, description: true,
   pricePerNightMin: true, pricePerNightMax: true, priceLevel: true,
-  ratingAvg: true, ratingCount: true, amenities: true, heroGradient: true,
+  ratingAvg: true, ratingCount: true, amenities: true, heroGradient: true, images: true,
   verification: true, address: true, lat: true, lng: true,
   district: { select: { name: true, slug: true } },
 } satisfies Prisma.StaySelect;

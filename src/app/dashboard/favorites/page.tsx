@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { db } from "@/server/db";
-import { getViewer } from "@/server/auth/guard";
+import { requireViewer } from "@/server/auth/guard";
 import { FavoriteButton } from "@/components/catalog/favorite-button";
 import { DestinationCard, gradientFor } from "@/components/catalog/cards";
 import { Card } from "@/components/ui/primitives";
@@ -9,7 +9,7 @@ export const metadata = { title: "Favourites" };
 export const dynamic = "force-dynamic";
 
 export default async function FavoritesPage() {
-  const viewer = (await getViewer())!;
+  const viewer = await requireViewer();
   const favs = await db.favorite.findMany({
     where: { userId: viewer.id },
     orderBy: { createdAt: "desc" },

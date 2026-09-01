@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { db } from "@/server/db";
-import { getViewer } from "@/server/auth/guard";
+import { requireViewer } from "@/server/auth/guard";
 import { getBalance, levelFor } from "@/server/domains/gamification";
 import { unreadCount } from "@/server/domains/notifications";
 import { Card } from "@/components/ui/primitives";
@@ -10,7 +10,7 @@ export const metadata = { title: "Dashboard" };
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const viewer = (await getViewer())!;
+  const viewer = await requireViewer();
   const [tripCount, upcomingTrip, points, unread] = await Promise.all([
     db.trip.count({ where: { userId: viewer.id } }),
     db.trip.findFirst({ where: { userId: viewer.id, startDate: { gte: new Date() }, status: { in: ["PLANNING", "CONFIRMED"] } }, orderBy: { startDate: "asc" }, select: { id: true, title: true, startDate: true, days: true, estimatedCost: true } }),

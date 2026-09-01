@@ -1,4 +1,4 @@
-import { getViewer } from "@/server/auth/guard";
+import { requireViewer } from "@/server/auth/guard";
 import { listNotifications, unreadCount } from "@/server/domains/notifications";
 import { markNotificationsReadAction } from "@/server/actions/user";
 import { Card } from "@/components/ui/primitives";
@@ -17,7 +17,7 @@ const TYPE_ICONS: Record<string, string> = {
 };
 
 export default async function NotificationsPage() {
-  const viewer = (await getViewer())!;
+  const viewer = await requireViewer();
   const [items, unread] = await Promise.all([listNotifications(viewer.id, false, 50), unreadCount(viewer.id)]);
 
   return (

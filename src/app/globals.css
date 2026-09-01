@@ -2,36 +2,337 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Design tokens ─────────────────────────────────────────────────────────
+   Warm terracotta + pine palette shared by the marketing surface (home,
+   trips, journal) and the product surface (dashboard, planner, checkout).
+   Every token has a dark counterpart; `.dark` is toggled on <html>.        */
 :root {
+  --bg: #faf6ef;
+  --surface: #ffffff;
+  --surface2: #f3ecdf;
+  --line: #e5dccb;
+  --ink: #211d15;
+  --muted: #6e6555;
+  --accent: #c4562f;
+  --accent-strong: #a34322;
+  --accent-soft: #f6e4da;
+  --pine: #155e56;
+  --pine-soft: #deece8;
+  --gold: #a87b14;
+  --ok: #25794c;
+  --danger: #b23a2d;
+  /* Stays dark enough for white button text in BOTH themes. */
+  --pine-deep: #155e56;
+
   --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Telugu", sans-serif;
   --font-display: Georgia, "Times New Roman", serif;
+}
+
+.dark {
+  --bg: #14110c;
+  --surface: #1d1913;
+  --surface2: #272119;
+  --line: #352d20;
+  --ink: #f1eae0;
+  --muted: #a79c8b;
+  --accent: #dd7a54;
+  --accent-strong: #ec9070;
+  --accent-soft: #38261c;
+  --pine: #74c3b7;
+  --pine-soft: #17332e;
+  --gold: #d9a83f;
+  --ok: #5cbd8f;
+  --danger: #e06b58;
+  --pine-deep: #2f9c8f;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
   }
+  html,
+  body {
+    overflow-x: hidden;
+  }
+  body {
+    @apply antialiased;
+    background-color: var(--bg);
+    color: var(--ink);
+  }
+  ::selection {
+    background: var(--accent);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
     }
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-  body {
-    @apply bg-sand-50 text-ink-900 antialiased;
-  }
-  :focus-visible {
-    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-sand-50;
   }
 }
 
 @layer components {
   .skip-link {
-    @apply absolute left-4 top-4 z-[100] -translate-y-24 rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white transition-transform focus:translate-y-0;
+    @apply absolute left-4 top-4 z-[200] -translate-y-24 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition-transform focus:translate-y-0;
+  }
+
+  /* Layout ---------------------------------------------------------------- */
+  .container-x {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 76rem;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-x {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-x {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Buttons --------------------------------------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.55rem 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.15s ease;
+    cursor: pointer;
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--accent-strong);
+  }
+  .dark .btn-primary {
+    color: #171310;
+  }
+  .btn-outline {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .btn-outline:hover:not(:disabled) {
+    border-color: var(--muted);
+  }
+  .btn-pine {
+    background: var(--pine);
+    color: #fff;
+  }
+  .btn-pine:hover:not(:disabled) {
+    filter: brightness(1.1);
+  }
+  .dark .btn-pine {
+    color: #101512;
+  }
+  .btn-ghost {
+    color: var(--ink);
+    background: transparent;
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--surface2);
+  }
+
+  /* Chips ----------------------------------------------------------------- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+    border-radius: 9999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 0.4rem 0.85rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--ink);
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease;
+    cursor: pointer;
+    min-height: 2.25rem;
+  }
+  .chip:hover {
+    border-color: var(--muted);
+  }
+  .chip[aria-pressed="true"],
+  .chip.active {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+
+  /* Forms ----------------------------------------------------------------- */
+  .field {
+    width: 100%;
+    min-height: 2.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9375rem;
+  }
+  .field::placeholder {
+    color: var(--muted);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--danger);
+  }
+
+  /* Surfaces -------------------------------------------------------------- */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+  }
+  .hairline {
+    border-color: var(--line);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── Motion ───────────────────────────────────────────────────────────────
+   Scroll reveals, hero ken-burns, marquee, toasts and loading skeletons.
+   All of it collapses to a static state under prefers-reduced-motion.     */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: calc(var(--reveal-index, 0) * 80ms);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+.animate-kenburns {
+  animation: kenburns 7.5s ease-out forwards;
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee-x 42s linear infinite;
+}
+
+@keyframes toast-slide {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.toast-in {
+  animation: toast-slide 0.28s ease-out;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fade-up {
+  animation: fade-up 0.45s ease-out both;
+}
+
+@keyframes shimmer-bg {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+.skeleton {
+  border-radius: 0.75rem;
+  background: linear-gradient(
+    100deg,
+    var(--surface2) 40%,
+    var(--surface) 50%,
+    var(--surface2) 60%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-bg 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-kenburns,
+  .animate-marquee,
+  .toast-in,
+  .fade-up,
+  .skeleton {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

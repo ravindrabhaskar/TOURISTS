@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { db } from "@/server/db";
-import { getViewer } from "@/server/auth/guard";
+import { requireViewer } from "@/server/auth/guard";
 import { listUserTrips } from "@/server/domains/trips/service";
 import { deleteTripAction } from "@/server/actions/user";
 import { Card } from "@/components/ui/primitives";
@@ -18,7 +17,7 @@ const STATUS_TONE: Record<string, string> = {
 };
 
 export default async function TripsPage() {
-  const viewer = (await getViewer())!;
+  const viewer = await requireViewer();
   const trips = await listUserTrips(viewer.id);
 
   return (
