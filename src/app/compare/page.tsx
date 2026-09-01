@@ -4,7 +4,7 @@ import CompareBoard from "@/components/trips/CompareBoard";
 
 export const metadata: Metadata = {
   title: "Compare trips",
-  description: "Put up to four Trade Winds trips side by side — price, season, duration and group size.",
+  description: "Put up to four Sanchari trips side by side — price, season, duration and group size.",
 };
 
 export default function ComparePage() {

@@ -5,7 +5,7 @@ import { formatINR } from "@/lib/format";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Trade Winds trip";
+export const alt = "Sanchari trip";
 
 export default async function TripOgImage({
   params,
@@ -71,7 +71,7 @@ export default async function TripOgImage({
               >
                 ✳
               </div>
-              Trade Winds
+              Sanchari
             </div>
             <div
               style={{

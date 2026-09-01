@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 export default async function AdminPage() {
   const authed = await hasAdminSession();
   if (!authed) {
-    return <AdminLogin hint={process.env.ADMIN_PASSWORD ? undefined : "trade-winds"} />;
+    return <AdminLogin hint={process.env.ADMIN_PASSWORD ? undefined : "sanchari"} />;
   }
   await seedIfEmpty();
   const [records, overrides] = await Promise.all([listEnquiries(), readOverrides()]);

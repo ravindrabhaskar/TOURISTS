@@ -163,7 +163,7 @@ function LookupInner() {
             <button
               type="button"
               onClick={() => {
-                downloadText(`trade-winds-${result.ref}.txt`, buildConfirmation(result));
+                downloadText(`sanchari-${result.ref}.txt`, buildConfirmation(result));
                 push("Copy downloaded.");
               }}
               className="btn btn-outline min-h-10"
@@ -185,8 +185,8 @@ function LookupInner() {
 
           <p className="mt-5 text-sm text-muted">
             Questions? Quote <strong className="font-mono">{result.ref}</strong> to{" "}
-            <a href="mailto:hello@tradewinds.travel" className="underline hover:text-accent">
-              hello@tradewinds.travel
+            <a href="mailto:hello@sanchari.travel" className="underline hover:text-accent">
+              hello@sanchari.travel
             </a>{" "}
             or call +91 40 4000 1120.
           </p>

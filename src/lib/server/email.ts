@@ -22,7 +22,7 @@ export async function sendMail({ to, subject, text }: MailInput): Promise<boolea
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: process.env.EMAIL_FROM || "Trade Winds <bookings@tradewinds.travel>",
+        from: process.env.EMAIL_FROM || "Sanchari <bookings@sanchari.travel>",
         to: [to],
         subject,
         text,
@@ -57,7 +57,7 @@ export function travellerConfirmation(input: {
     "",
     "Track anytime: /enquiry",
     "",
-    "— Trade Winds Travel Co., Banjara Hills, Hyderabad",
+    "— Sanchari Travel Co., Banjara Hills, Hyderabad",
   ].join("\n");
 }
 

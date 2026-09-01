@@ -1,13 +1,13 @@
 import type { EnquiryStatus } from "@/lib/types";
 
 export const SITE = {
-  name: "Trade Winds Travel Co.",
-  shortName: "Trade Winds",
+  name: "Sanchari Travel Co.",
+  shortName: "Sanchari",
   since: 2011,
   address: "Banjara Hills, Hyderabad 500034",
   phone: "+91 40 4000 1120",
   whatsapp: "+91 98480 11220",
-  email: "hello@tradewinds.travel",
+  email: "hello@sanchari.travel",
   coords: "17.4065° N, 78.4772° E",
 };
 
@@ -28,7 +28,7 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote:
-      "Third trip with Trade Winds. The month advice is real — they talked us out of Goa in June and into Coorg instead. Best holiday decision we didn't make ourselves.",
+      "Third trip with Sanchari. The month advice is real — they talked us out of Goa in June and into Coorg instead. Best holiday decision we didn't make ourselves.",
     name: "Arjun & Meera Iyer",
     trip: "Coorg Coffee & Hampi Ruins",
     rating: 5,
@@ -195,7 +195,7 @@ export const TEAM: TeamMember[] = [
 export function whatsappLink(message?: string): string {
   const text = encodeURIComponent(
     message ||
-      `Hi Trade Winds! I'm browsing your trips and have a question.`,
+      `Hi Sanchari! I'm browsing your trips and have a question.`,
   );
   return `https://wa.me/${SITE.whatsapp.replace(/[\s+]/g, "")}?text=${text}`;
 }

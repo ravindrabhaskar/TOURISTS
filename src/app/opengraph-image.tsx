@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Trade Winds Travel Co. — small-group trips from Hyderabad";
+export const alt = "Sanchari Travel Co. — small-group trips from Hyderabad";
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -34,7 +34,7 @@ export default function OpengraphImage() {
           >
             ✳
           </div>
-          <div style={{ fontSize: 34, fontWeight: 600 }}>Trade Winds Travel Co.</div>
+          <div style={{ fontSize: 34, fontWeight: 600 }}>Sanchari Travel Co.</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>

@@ -4,7 +4,7 @@ import { JOURNAL } from "@/lib/data/journal";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base =
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://trade-winds-travel.vercel.app";
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://sanchari-travel.vercel.app";
   const now = new Date();
   return [
     { url: base, lastModified: now, priority: 1 },

@@ -136,7 +136,7 @@ export default function Footer() {
 
       <div className="border-t border-line">
         <div className="container-x flex flex-col items-center justify-between gap-2 py-5 text-xs text-muted sm:flex-row">
-          <p>© 2026 Trade Winds Travel Co. All trips operated in-house.</p>
+          <p>© 2026 Sanchari Travel Co. All trips operated in-house.</p>
           <p>
             Design rebuild · data lives in your browser for this demo ·{" "}
             <Link href="/admin" className="underline hover:text-accent">

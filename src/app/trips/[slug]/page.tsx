@@ -48,7 +48,7 @@ export async function generateMetadata({
     title: trip.name,
     description: `${trip.blurb} ${trip.days} days · ₹${trip.priceInr.toLocaleString("en-IN")} per person · best in ${bestMonthsLabel(trip)}.`,
     openGraph: {
-      title: `${trip.name} — Trade Winds Travel Co.`,
+      title: `${trip.name} — Sanchari Travel Co.`,
       description: trip.blurb,
       images: [{ url: trip.cover }],
     },

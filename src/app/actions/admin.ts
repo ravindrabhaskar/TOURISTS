@@ -14,7 +14,7 @@ import {
 import { mutateEnquiry, resetEnquiries } from "@/lib/server/db";
 import { writeOverride } from "@/lib/server/content";
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "trade-winds";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "sanchari";
 
 function safeEqual(a: string, b: string): boolean {
   const ab = Buffer.from(a);

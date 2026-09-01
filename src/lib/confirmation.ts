@@ -5,7 +5,7 @@ import { formatDate } from "./format";
 export function buildConfirmation(e: EnquiryRecord): string {
   const line = "-".repeat(46);
   return [
-    "TRADE WINDS TRAVEL CO.",
+    "SANCHARI TRAVEL CO.",
     "Banjara Hills, Hyderabad 500034 · +91 40 4000 1120",
     line,
     `Reference      : ${e.ref}`,

@@ -15,7 +15,7 @@ export default function WhyUs() {
     <section id="why" className="container-x scroll-mt-24 py-16 sm:py-20">
       <Reveal>
         <SectionHead
-          eyebrow="Why Trade Winds"
+          eyebrow="Why Sanchari"
           title="Four promises we can actually keep"
           sub="No loyalty programs, no mystery pricing, no 'terms apply' asterisks."
         />

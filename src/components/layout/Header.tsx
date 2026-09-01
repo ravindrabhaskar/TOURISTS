@@ -211,7 +211,7 @@ export default function Header() {
           <Link
             href="/"
             className="flex min-h-11 items-center gap-2.5"
-            aria-label="Trade Winds home"
+            aria-label="Sanchari home"
           >
             <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden>
               <circle cx="16" cy="16" r="14" fill="none" stroke="var(--accent)" strokeWidth="2" />
@@ -224,7 +224,7 @@ export default function Header() {
               />
             </svg>
             <span className="leading-tight">
-              <span className="block font-display text-lg font-semibold">Trade Winds</span>
+              <span className="block font-display text-lg font-semibold">Sanchari</span>
               <span className="block font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
                 Hyderabad · since 2011
               </span>

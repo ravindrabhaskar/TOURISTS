@@ -221,7 +221,7 @@ export default function EnquireWizard() {
             </button>
             <button
               type="button"
-              onClick={() => downloadText(`trade-winds-${done.ref}.txt`, txt)}
+              onClick={() => downloadText(`sanchari-${done.ref}.txt`, txt)}
               className="btn btn-outline"
             >
               <Download size={15} aria-hidden /> Save a copy

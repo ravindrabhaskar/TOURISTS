@@ -182,7 +182,7 @@ export default function BookingCard({
           </button>
           <a
             href={whatsappLink(
-              `Hi Trade Winds! I'm looking at ${trip.name} (${trip.days} days). A few questions…`,
+              `Hi Sanchari! I'm looking at ${trip.name} (${trip.days} days). A few questions…`,
             )}
             target="_blank"
             rel="noopener noreferrer"
