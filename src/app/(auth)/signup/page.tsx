@@ -30,7 +30,7 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
             minLength={2}
             maxLength={80}
             autoComplete="name"
-            className="mt-1 w-full rounded-xl border border-sand-200 bg-white px-3 py-2.5 focus:border-brand-400"
+            className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5 focus:border-brand-400"
           />
         </label>
         <label className="block text-sm font-medium">
@@ -40,7 +40,7 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
             type="email"
             required
             autoComplete="email"
-            className="mt-1 w-full rounded-xl border border-sand-200 bg-white px-3 py-2.5 focus:border-brand-400"
+            className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5 focus:border-brand-400"
           />
         </label>
         <label className="block text-sm font-medium">
@@ -51,7 +51,7 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
             required
             minLength={8}
             autoComplete="new-password"
-            className="mt-1 w-full rounded-xl border border-sand-200 bg-white px-3 py-2.5 focus:border-brand-400"
+            className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5 focus:border-brand-400"
           />
           <span className="mt-1 block text-xs font-normal text-ink-900/60">At least 8 characters with letters and numbers.</span>
         </label>
@@ -59,7 +59,7 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
           <legend className="text-sm font-medium">Interests <span className="font-normal text-ink-900/60">(optional)</span></legend>
           <div className="mt-2 flex flex-wrap gap-2">
             {INTERESTS.map((i) => (
-              <label key={i} className="cursor-pointer rounded-full border border-sand-200 bg-white px-3 py-1.5 text-xs font-medium has-checked:border-brand-500 has-checked:bg-brand-50 has-checked:text-brand-800">
+              <label key={i} className="cursor-pointer rounded-full border border-sand-200 bg-surface px-3 py-1.5 text-xs font-medium has-checked:border-brand-500 has-checked:bg-brand-50 has-checked:text-brand-800">
                 <input type="checkbox" name="interests" value={i} className="sr-only" />
                 {i}
               </label>

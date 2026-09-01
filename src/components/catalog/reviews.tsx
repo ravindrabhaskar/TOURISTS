@@ -32,7 +32,7 @@ export function ReviewForm({
   }
 
   return (
-    <form action={submitReviewAction} className="rounded-2xl border border-sand-200 bg-white p-6">
+    <form action={submitReviewAction} className="rounded-2xl border border-sand-200 bg-surface p-6">
       <h3 className="font-semibold">Write a review</h3>
       <input type="hidden" name="targetType" value={targetType} />
       <input type="hidden" name="slug" value={slug} />
@@ -99,7 +99,7 @@ export function ReviewsList({ reviews }: { reviews: ReviewItem[] }) {
     <ul className="space-y-4">
       {reviews.map((r) => (
         <li key={r.id}>
-          <article className="rounded-2xl border border-sand-200 bg-white p-5">
+          <article className="rounded-2xl border border-sand-200 bg-surface p-5">
             <header className="flex items-center justify-between gap-3">
               <p className="flex items-center gap-2 text-sm font-semibold">
                 <span aria-hidden>{r.userAvatar ?? "🧭"}</span> {r.userName}

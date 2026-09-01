@@ -100,10 +100,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             role="status"
             className={`toast-in pointer-events-auto rounded-xl border px-4 py-3 text-sm shadow-lg ${
               t.tone === "ok"
-                ? "border-emerald-200 bg-white text-ink dark:border-emerald-900 dark:bg-surface"
+                ? "border-ok/40 bg-surface text-ink"
                 : t.tone === "warn"
-                  ? "border-red-200 bg-white text-ink dark:border-red-900 dark:bg-surface"
-                  : "border-line bg-white text-ink dark:bg-surface"
+                  ? "border-danger/40 bg-surface text-ink"
+                  : "border-line bg-surface text-ink"
             }`}
           >
             <span

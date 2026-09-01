@@ -2,8 +2,8 @@ import Link from "next/link";
 import { db } from "@/server/db";
 import { listDestinations } from "@/server/domains/destinations";
 import { DestinationCard, Pagination } from "@/components/catalog/cards";
-import { SectionHeading } from "@/components/ui/primitives";
 import type { DestinationType } from "@prisma/client";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = {
   title: "Destinations",
@@ -65,21 +65,22 @@ export default async function DestinationsPage({
   };
 
   return (
-    <div className="container py-10">
-      <SectionHeading
+    <div className="container-x py-10 sm:py-14">
+      <PageHeader
+        eyebrow="Where to go"
         title="Discover Andhra Pradesh"
-        subtitle={result ? `${result.total} verified places · updated by the tourism team` : "Verified places across all 26 districts"}
+        sub={result ? `${result.total} verified places · updated by the tourism team` : "Verified places across all 26 districts"}
       />
 
-      <form action="/destinations" method="get" className="mb-8 flex flex-wrap gap-3">
+      <form action="/destinations" method="get" className="mb-8 mt-8 flex flex-wrap gap-3">
         <input
           name="q"
           defaultValue={sp.q ?? ""}
           placeholder="Search places… e.g. Araku, waterfall, Tirupati"
-          className="min-w-0 flex-1 rounded-xl border border-sand-200 bg-white px-4 py-2.5 focus:border-brand-400 sm:max-w-md"
+          className="min-w-0 flex-1 rounded-xl border border-sand-200 bg-surface px-4 py-2.5 focus:border-brand-400 sm:max-w-md"
           aria-label="Search destinations"
         />
-        <select name="district" defaultValue={sp.district ?? ""} aria-label="District filter" className="rounded-xl border border-sand-200 bg-white px-3 py-2.5">
+        <select name="district" defaultValue={sp.district ?? ""} aria-label="District filter" className="rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
           <option value="">All districts</option>
           {districts.map((d) => (
             <option key={d.id} value={d.slug}>{d.name}</option>
@@ -98,7 +99,7 @@ export default async function DestinationsPage({
             key={t.value}
             href={qs({ type: t.value || undefined, page: undefined })}
             className={`rounded-full border px-3.5 py-1.5 text-sm font-medium ${
-              (sp.type ?? "") === t.value ? "border-brand-600 bg-brand-600 text-white" : "border-sand-200 bg-white text-ink-900/70 hover:border-brand-300"
+              (sp.type ?? "") === t.value ? "border-brand-600 bg-brand-600 text-white" : "border-sand-200 bg-surface text-ink-900/70 hover:border-brand-300"
             }`}
           >
             {t.label}

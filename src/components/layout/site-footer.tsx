@@ -28,7 +28,7 @@ const FOOTER_LINKS: Array<{ heading: string; links: Array<{ href: string; label:
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-sand-200 bg-white">
+    <footer className="border-t border-sand-200 bg-surface">
       <div className="container grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <p className="font-display text-lg font-bold text-ink-950">Sanchari</p>

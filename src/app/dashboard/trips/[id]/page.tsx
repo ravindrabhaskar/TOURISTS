@@ -86,14 +86,14 @@ export default async function TripDetailPage({
                   <input type="hidden" name="op" value="shift" />
                   <input type="hidden" name="dayNumber" value={day.dayNumber} />
                   <input type="hidden" name="delta" value={30} />
-                  <button className="rounded-lg border border-sand-200 bg-white px-3 py-1.5 hover:border-brand-300">+30 min late</button>
+                  <button className="rounded-lg border border-sand-200 bg-surface px-3 py-1.5 hover:border-brand-300">+30 min late</button>
                 </form>
                 <form action={applyTripModificationAction}>
                   <input type="hidden" name="tripId" value={trip.id} />
                   <input type="hidden" name="op" value="shift" />
                   <input type="hidden" name="dayNumber" value={day.dayNumber} />
                   <input type="hidden" name="delta" value={-30} />
-                  <button className="rounded-lg border border-sand-200 bg-white px-3 py-1.5 hover:border-brand-300">−30 min early</button>
+                  <button className="rounded-lg border border-sand-200 bg-surface px-3 py-1.5 hover:border-brand-300">−30 min early</button>
                 </form>
                 <form action={applyTripModificationAction}>
                   <input type="hidden" name="tripId" value={trip.id} />
@@ -131,7 +131,7 @@ export default async function TripDetailPage({
                         <input type="hidden" name="op" value="remove" />
                         <input type="hidden" name="dayNumber" value={day.dayNumber} />
                         <input type="hidden" name="match" value={item.title} />
-                        <button className="rounded-lg px-2 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50" title={`Remove ${item.title}`}>
+                        <button className="rounded-lg px-2 py-1.5 text-xs font-semibold text-danger hover:bg-danger/10" title={`Remove ${item.title}`}>
                           Skip
                         </button>
                       </form>
@@ -147,7 +147,7 @@ export default async function TripDetailPage({
                 <input type="hidden" name="tripId" value={trip.id} />
                 <input type="hidden" name="op" value="add" />
                 <input type="hidden" name="dayNumber" value={day.dayNumber} />
-                <select name="slug" required className="min-w-0 flex-1 rounded-xl border border-sand-200 bg-white px-3 py-2 text-sm sm:max-w-md">
+                <select name="slug" required className="min-w-0 flex-1 rounded-xl border border-sand-200 bg-surface px-3 py-2 text-sm sm:max-w-md">
                   <option value="">Choose a place…</option>
                   {topCandidates.map((c) => (
                     <option key={c.slug} value={c.slug}>
@@ -166,7 +166,7 @@ export default async function TripDetailPage({
       {trip.bookings.length > 0 ? (
         <section className="mt-10" aria-labelledby="trip-bookings">
           <h2 id="trip-bookings" className="font-display text-2xl font-bold">Linked bookings</h2>
-          <ul className="mt-3 divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-white text-sm">
+          <ul className="mt-3 divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-surface text-sm">
             {trip.bookings.map((b) => (
               <li key={b.id} className="flex items-center justify-between px-5 py-3">
                 <span>

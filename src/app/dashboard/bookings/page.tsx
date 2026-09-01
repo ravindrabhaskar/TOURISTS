@@ -22,7 +22,7 @@ const STATUS_STYLE: Record<string, string> = {
   PENDING_PAYMENT: "bg-spice-100 text-spice-700",
   CONFIRMED: "bg-brand-100 text-brand-800",
   CANCELLED: "bg-sand-200 text-ink-900/60",
-  FAILED: "bg-red-100 text-red-700",
+  FAILED: "bg-danger/15 text-danger",
   REFUNDED: "bg-coast-100 text-coast-700",
   COMPLETED: "bg-sand-200 text-ink-900/70",
 };
@@ -140,7 +140,7 @@ export default async function BookingsPage({ searchParams }: { searchParams: Pro
                     {(b.status === "PENDING_PAYMENT" || b.status === "CONFIRMED") && (
                       <form action={cancelBookingAction}>
                         <input type="hidden" name="bookingId" value={b.id} />
-                        <button type="submit" className="rounded-xl border border-sand-200 px-3 py-2 text-sm font-medium text-red-600 hover:border-red-300">
+                        <button type="submit" className="rounded-xl border border-sand-200 px-3 py-2 text-sm font-medium text-danger hover:border-danger/50">
                           Cancel
                         </button>
                       </form>

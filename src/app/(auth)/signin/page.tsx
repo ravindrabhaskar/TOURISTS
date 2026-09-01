@@ -25,7 +25,7 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
             type="email"
             required
             autoComplete="email"
-            className="mt-1 w-full rounded-xl border border-sand-200 bg-white px-3 py-2.5 focus:border-brand-400"
+            className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5 focus:border-brand-400"
             placeholder="you@example.com"
           />
         </label>
@@ -36,7 +36,7 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
             type="password"
             required
             autoComplete="current-password"
-            className="mt-1 w-full rounded-xl border border-sand-200 bg-white px-3 py-2.5 focus:border-brand-400"
+            className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5 focus:border-brand-400"
             placeholder="••••••••"
           />
         </label>

@@ -47,7 +47,7 @@ export default async function StayCheckoutPage({ searchParams }: { searchParams:
             </label>
             <label className="block text-sm font-medium">
               Nights
-              <select name="nights" defaultValue={2} className="mt-1 w-full rounded-xl border border-sand-200 bg-white px-3 py-2.5">
+              <select name="nights" defaultValue={2} className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
                 {[1, 2, 3, 4, 5].map((n) => (
                   <option key={n} value={n}>{n}</option>
                 ))}

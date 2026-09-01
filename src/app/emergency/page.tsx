@@ -1,5 +1,6 @@
 import { db } from "@/server/db";
-import { Card, SectionHeading } from "@/components/ui/primitives";
+import { Card } from "@/components/ui/primitives";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = {
   title: "Emergency & Safety",
@@ -49,21 +50,23 @@ export default async function EmergencyPage() {
   };
 
   return (
-    <div className="container max-w-4xl py-10">
-      <SectionHeading
+    <div className="container-x max-w-4xl py-10 sm:py-14">
+      <PageHeader
+        eyebrow="Stay safe"
         title="Emergency & safety"
-        subtitle="Official numbers and current advisories. Sanchari never invents alert status — only department-issued alerts appear here."
+        sub="Official numbers and current advisories. Sanchari never invents alert status — only department-issued alerts appear here."
+        className="mb-8"
       />
 
       {alerts.length > 0 ? (
         <section aria-labelledby="alerts-heading" className="mb-10 space-y-3">
           <h2 id="alerts-heading" className="font-display text-2xl font-bold">Active alerts</h2>
           {alerts.map((a) => (
-            <Card key={a.id} className={`border-l-4 p-5 ${a.severity === "CRITICAL" ? "border-l-red-600 bg-red-50/60" : a.severity === "WARNING" ? "border-l-spice-500 bg-spice-50/60" : "border-l-coast-500 bg-coast-100/40"}`}>
+            <Card key={a.id} className={`border-l-4 p-5 ${a.severity === "CRITICAL" ? "border-l-danger bg-danger/10" : a.severity === "WARNING" ? "border-l-spice-500 bg-spice-50/60" : "border-l-coast-500 bg-coast-100/40"}`}>
               <p className="flex flex-wrap items-center gap-2 font-semibold">
                 <span aria-hidden>{a.severity === "CRITICAL" ? "🚨" : a.severity === "WARNING" ? "⚠️" : "ℹ️"}</span>
                 {a.title}
-                {a.district ? <span className="rounded-full bg-white px-2 py-0.5 text-xs">{a.district.name} district</span> : null}
+                {a.district ? <span className="rounded-full bg-surface px-2 py-0.5 text-xs">{a.district.name} district</span> : null}
               </p>
               <p className="mt-1.5 text-sm text-ink-900/80">{a.message}</p>
               <p className="mt-2 text-xs text-ink-900/50">Issued by {a.issuedBy} · from {a.startsAt.toLocaleDateString("en-IN")}{a.endsAt ? ` until ${a.endsAt.toLocaleDateString("en-IN")}` : ""}</p>

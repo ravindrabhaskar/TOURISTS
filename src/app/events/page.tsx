@@ -1,6 +1,6 @@
 import { listEvents } from "@/server/domains/events";
 import { EventCard, Pagination } from "@/components/catalog/cards";
-import { SectionHeading } from "@/components/ui/primitives";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = {
   title: "Events & Festivals",
@@ -30,10 +30,14 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
   };
 
   return (
-    <div className="container py-10">
-      <SectionHeading title="Festivals & events" subtitle="Andhra's living cultural calendar — plan your trip around it." />
+    <div className="container-x py-10 sm:py-14">
+      <PageHeader
+        eyebrow="What's on"
+        title="Festivals & events"
+        sub="Andhra's living cultural calendar — plan your trip around it."
+      />
 
-      <div className="mb-8 flex flex-wrap gap-2">
+      <div className="mb-8 mt-8 flex flex-wrap gap-2">
         {[
           ["upcoming", "Upcoming"],
           ["this-month", "This month"],
@@ -43,7 +47,7 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
             key={value}
             href={qs({ when: value, page: undefined })}
             className={`rounded-full border px-3.5 py-1.5 text-sm font-medium ${
-              (sp.when ?? "upcoming") === value ? "border-brand-600 bg-brand-600 text-white" : "border-sand-200 bg-white text-ink-900/70 hover:border-brand-300"
+              (sp.when ?? "upcoming") === value ? "border-brand-600 bg-brand-600 text-white" : "border-sand-200 bg-surface text-ink-900/70 hover:border-brand-300"
             }`}
           >
             {label}
@@ -55,7 +59,7 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
             key={c}
             href={qs({ category: sp.category === c ? undefined : c, page: undefined })}
             className={`rounded-full border px-3.5 py-1.5 text-sm font-medium capitalize ${
-              sp.category === c ? "border-spice-500 bg-spice-500 text-white" : "border-sand-200 bg-white text-ink-900/70 hover:border-brand-300"
+              sp.category === c ? "border-spice-500 bg-spice-500 text-white" : "border-sand-200 bg-surface text-ink-900/70 hover:border-brand-300"
             }`}
           >
             {c.toLowerCase().replace(/_/g, " ")}

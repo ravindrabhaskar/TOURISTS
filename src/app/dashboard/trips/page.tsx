@@ -13,7 +13,7 @@ const STATUS_TONE: Record<string, string> = {
   CONFIRMED: "bg-brand-100 text-brand-800",
   ONGOING: "bg-spice-100 text-spice-700",
   COMPLETED: "bg-sand-200 text-ink-900/70",
-  CANCELLED: "bg-red-100 text-red-700",
+  CANCELLED: "bg-danger/15 text-danger",
 };
 
 export default async function TripsPage() {
@@ -54,7 +54,7 @@ export default async function TripsPage() {
                   ) : null}
                   <form action={deleteTripAction}>
                     <input type="hidden" name="tripId" value={t.id} />
-                    <button type="submit" className="rounded-xl px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50" title="Delete trip">🗑</button>
+                    <button type="submit" className="rounded-xl px-3 py-2 text-sm font-medium text-danger hover:bg-danger/10" title="Delete trip">🗑</button>
                   </form>
                 </div>
               </Card>

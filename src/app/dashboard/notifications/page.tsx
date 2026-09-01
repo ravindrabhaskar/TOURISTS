@@ -26,7 +26,7 @@ export default async function NotificationsPage() {
         <h1 className="font-display text-3xl font-bold">Notifications {unread > 0 ? <span className="align-middle rounded-full bg-spice-500 px-2.5 py-1 text-xs font-bold text-white">{unread} new</span> : null}</h1>
         {unread > 0 ? (
           <form action={markNotificationsReadAction}>
-            <button type="submit" className="rounded-xl border border-sand-200 bg-white px-4 py-2 text-sm font-semibold hover:border-brand-300">
+            <button type="submit" className="rounded-xl border border-sand-200 bg-surface px-4 py-2 text-sm font-semibold hover:border-brand-300">
               Mark all as read
             </button>
           </form>

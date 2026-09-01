@@ -68,14 +68,14 @@ export default async function RewardsPage() {
           {history.length === 0 ? (
             <p className="mt-2 rounded-xl border border-dashed border-sand-300 p-6 text-sm text-ink-900/60">No points yet.</p>
           ) : (
-            <ul className="mt-3 divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-white">
+            <ul className="mt-3 divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-surface">
               {history.slice(0, 12).map((h) => (
                 <li key={h.id} className="flex items-center justify-between px-4 py-3 text-sm">
                   <span>
                     {h.description}
                     <span className="block text-xs text-ink-900/50">{h.createdAt.toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</span>
                   </span>
-                  <span className={`font-bold tabular-nums ${h.points >= 0 ? "text-brand-700" : "text-red-600"}`}>
+                  <span className={`font-bold tabular-nums ${h.points >= 0 ? "text-brand-700" : "text-danger"}`}>
                     {h.points >= 0 ? "+" : ""}{h.points}
                     <span className="ml-1.5 block text-right text-[10px] font-normal text-ink-900/40">bal {h.balanceAfter}</span>
                   </span>
@@ -111,7 +111,7 @@ export default async function RewardsPage() {
 
           <section aria-labelledby="lb-heading" className="mt-8">
             <SectionHeading title="Leaderboard" subtitle="Quality-weighted: points + published reviews." />
-            <ol className="divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-white">
+            <ol className="divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-surface">
               {top.map((row, i) => (
                 <li key={row.id} className={`flex items-center gap-3 px-4 py-3 ${row.id === viewer.id ? "bg-brand-50/70" : ""}`}>
                   <span className="w-6 text-center font-bold text-ink-900/50">{["🥇", "🥈", "🥉"][i] ?? i + 1}</span>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { db } from "@/server/db";
 import { DestinationsMap, type MapPoint } from "@/components/map/destinations-map";
-import { SectionHeading } from "@/components/ui/primitives";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = {
   title: "Map",
@@ -24,13 +24,18 @@ export default async function MapPage() {
 
   return (
     <div className="container py-10">
-      <SectionHeading title="Explore the map" subtitle={`${points.length} published places plotted across Andhra Pradesh.`} />
+      <PageHeader
+        eyebrow="Explore"
+        title="On the map"
+        sub={`${points.length} published places plotted across Andhra Pradesh.`}
+        className="mb-8"
+      />
       {points.length > 0 ? (
         <>
           <DestinationsMap points={points} />
           <div className="mt-6 flex flex-wrap gap-2">
             {points.slice(0, 12).map((p) => (
-              <Link key={p.slug} href={`/destinations/${p.slug}`} className="rounded-full border border-sand-200 bg-white px-3 py-1.5 text-xs font-medium hover:border-brand-300">
+              <Link key={p.slug} href={`/destinations/${p.slug}`} className="rounded-full border border-sand-200 bg-surface px-3 py-1.5 text-xs font-medium hover:border-brand-300">
                 📍 {p.name}
               </Link>
             ))}

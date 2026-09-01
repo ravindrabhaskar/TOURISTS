@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Card } from "@/components/ui/primitives";
 import { formatKm } from "@/lib/geo";
+import PageHeader from "@/components/ui/PageHeader";
 
 type Place = {
   name: string; slug: string; type: string; categories?: string[];
@@ -53,13 +54,14 @@ export default function NearMePage() {
   }, [coords, radius]);
 
   return (
-    <div className="container py-10">
-      <h1 className="font-display text-3xl font-bold">Near me</h1>
-      <p className="mt-2 max-w-xl text-ink-900/70">
-        Discover verified places around you. Your location is used only in your browser for this search — it is never stored.
-      </p>
+    <div className="container-x py-10 sm:py-14">
+      <PageHeader
+        eyebrow="Right now"
+        title="Near me"
+        sub="Verified places around you. Your location is used only in your browser for this search — it is never stored."
+      />
 
-      <div className="mt-6 flex flex-wrap items-center gap-3">
+      <div className="mt-8 flex flex-wrap items-center gap-3">
         <button
           type="button"
           onClick={locate}
@@ -75,7 +77,7 @@ export default function NearMePage() {
                 key={r}
                 type="button"
                 onClick={() => setRadius(r)}
-                className={`px-4 py-2 text-sm font-semibold ${radius === r ? "bg-brand-600 text-white" : "bg-white text-ink-900/70 hover:bg-sand-100"}`}
+                className={`px-4 py-2 text-sm font-semibold ${radius === r ? "bg-brand-600 text-white" : "bg-surface text-ink-900/70 hover:bg-sand-100"}`}
               >
                 Within {r} km
               </button>
@@ -113,7 +115,7 @@ export default function NearMePage() {
                 Nothing published within {radius} km yet — try a wider radius.
               </p>
             ) : (
-              <ul className="mt-3 divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-white">
+              <ul className="mt-3 divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-surface">
                 {places.map((p) => (
                   <li key={p.slug}>
                     <Link href={p.href} className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-sand-50">
@@ -137,7 +139,7 @@ export default function NearMePage() {
           {stays.length > 0 ? (
             <section aria-labelledby="nearby-stays" className="mt-8">
               <h2 id="nearby-stays" className="font-display text-2xl font-bold">Stays nearby</h2>
-              <ul className="mt-3 divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-white">
+              <ul className="mt-3 divide-y divide-sand-100 rounded-2xl border border-sand-200 bg-surface">
                 {stays.map((s) => (
                   <li key={s.slug}>
                     <Link href={s.href} className="flex items-center justify-between px-5 py-3.5 hover:bg-sand-50">

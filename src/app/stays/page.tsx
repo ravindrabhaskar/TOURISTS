@@ -1,7 +1,7 @@
 import { listStays } from "@/server/domains/stays";
 import { StayCard, Pagination } from "@/components/catalog/cards";
-import { SectionHeading } from "@/components/ui/primitives";
 import type { PriceLevel, StayType } from "@prisma/client";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = {
   title: "Stays",
@@ -29,10 +29,14 @@ export default async function StaysPage({ searchParams }: { searchParams: Promis
   }
 
   return (
-    <div className="container py-10">
-      <SectionHeading title="Stays" subtitle="Every property is verified by the tourism team before listing." />
+    <div className="container-x py-10 sm:py-14">
+      <PageHeader
+        eyebrow="Where to sleep"
+        title="Stays"
+        sub="Homestays, heritage rooms and forest lodges — every property verified by the tourism team before listing."
+      />
 
-      <div role="note" className="mb-6 rounded-xl bg-sand-100 px-4 py-3 text-sm text-ink-900/75">
+      <div role="note" className="mb-6 mt-8 rounded-xl bg-sand-100 px-4 py-3 text-sm text-ink-900/75">
         ℹ️ Property details are platform-verified. <strong>Live room availability is not yet connected</strong> — booking flows run in clearly-labelled sandbox mode.
       </div>
 

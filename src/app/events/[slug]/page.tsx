@@ -76,7 +76,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
       <div className="mt-8 flex flex-wrap gap-3">
         {e.destination ? (
-          <Link href={`/destinations/${e.destination.slug}`} className="rounded-xl border border-brand-300 bg-white px-4 py-2.5 text-sm font-semibold text-brand-800 hover:border-brand-400">
+          <Link href={`/destinations/${e.destination.slug}`} className="rounded-xl border border-brand-300 bg-surface px-4 py-2.5 text-sm font-semibold text-brand-800 hover:border-brand-400">
             Explore {e.destination.name}
           </Link>
         ) : null}
@@ -84,7 +84,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           href={`https://www.google.com/maps/dir/?api=1&destination=${e.lat},${e.lng}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-xl border border-sand-200 bg-white px-4 py-2.5 text-sm font-semibold text-ink-900/80 hover:border-brand-300"
+          className="rounded-xl border border-sand-200 bg-surface px-4 py-2.5 text-sm font-semibold text-ink-900/80 hover:border-brand-300"
         >
           🧭 Directions
         </a>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { universalSearch } from "@/server/domains/search";
 import { DestinationCard } from "@/components/catalog/cards";
-import { SectionHeading } from "@/components/ui/primitives";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = { title: "Search" };
 
@@ -20,16 +20,20 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   }
 
   return (
-    <div className="container py-10">
-      <SectionHeading title="Search" subtitle="One box for curated trips, destinations, events, stays and districts." />
+    <div className="container-x py-10 sm:py-14">
+      <PageHeader
+        eyebrow="Find anything"
+        title="Search"
+        sub="One box for curated trips, destinations, events, stays and districts."
+      />
 
-      <form action="/search" method="get" className="mb-8 flex gap-3">
+      <form action="/search" method="get" className="mb-8 mt-8 flex gap-3">
         <input
           name="q"
           defaultValue={q}
           autoFocus
           placeholder="Try “Araku”, “festival”, “beach resort”…"
-          className="min-w-0 flex-1 rounded-xl border border-sand-200 bg-white px-4 py-3 text-base focus:border-brand-400"
+          className="min-w-0 flex-1 rounded-xl border border-sand-200 bg-surface px-4 py-3 text-base focus:border-brand-400"
           aria-label="Search everything"
         />
         <button type="submit" className="rounded-xl bg-brand-600 px-6 py-3 font-semibold text-white hover:bg-brand-700">
@@ -52,7 +56,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                 );
               return (
                 <Link key={`${hit.kind}-${hit.id}`} href={hit.href} className="group block">
-                  <article className="h-full rounded-2xl border border-sand-200 bg-white p-5 shadow-card transition-shadow group-hover:shadow-lift">
+                  <article className="h-full rounded-2xl border border-sand-200 bg-surface p-5 shadow-card transition-shadow group-hover:shadow-lift">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-brand-700">{hit.kind}</p>
                     <h2 className="mt-1 font-semibold group-hover:text-brand-700">{hit.title}</h2>
                     {hit.subtitle ? <p className="mt-1 line-clamp-2 text-sm text-ink-900/70">{hit.subtitle}</p> : null}

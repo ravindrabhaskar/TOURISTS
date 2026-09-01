@@ -45,7 +45,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
         <input type="hidden" name="originLng" value={Number.isFinite(originLng) ? String(originLng) : ""} />
         <input type="hidden" name="preferredSlugs" value={preferredSlugs.join(",")} />
 
-        <fieldset className="rounded-2xl border border-sand-200 bg-white p-6">
+        <fieldset className="rounded-2xl border border-sand-200 bg-surface p-6">
           <legend className="px-2 text-sm font-bold uppercase tracking-wide text-ink-900/60">1 · Where & when</legend>
           <div className="mt-3 grid gap-4 sm:grid-cols-2">
             <label className="block text-sm font-medium">
@@ -78,7 +78,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
           ) : null}
         </fieldset>
 
-        <fieldset className="rounded-2xl border border-sand-200 bg-white p-6">
+        <fieldset className="rounded-2xl border border-sand-200 bg-surface p-6">
           <legend className="px-2 text-sm font-bold uppercase tracking-wide text-ink-900/60">2 · Who is travelling</legend>
           <div className="mt-3 grid grid-cols-3 gap-4">
             {[
@@ -96,7 +96,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
             Accessibility needs
             <span className="flex flex-wrap gap-2 font-normal">
               {["wheelchair", "walking aid", "hearing"].map((n) => (
-                <label key={n} className="cursor-pointer rounded-full border border-sand-200 bg-white px-3 py-1.5 text-xs has-checked:border-brand-500 has-checked:bg-brand-50">
+                <label key={n} className="cursor-pointer rounded-full border border-sand-200 bg-surface px-3 py-1.5 text-xs has-checked:border-brand-500 has-checked:bg-brand-50">
                   <input type="checkbox" name="accessibilityNeeds" value={n} className="sr-only" />
                   {n}
                 </label>
@@ -105,7 +105,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
           </label>
         </fieldset>
 
-        <fieldset className="rounded-2xl border border-sand-200 bg-white p-6">
+        <fieldset className="rounded-2xl border border-sand-200 bg-surface p-6">
           <legend className="px-2 text-sm font-bold uppercase tracking-wide text-ink-900/60">3 · Trip shape</legend>
           <div className="mt-3 grid gap-4 sm:grid-cols-3">
             <label className="block text-sm font-medium">
@@ -114,7 +114,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
             </label>
             <label className="block text-sm font-medium">
               Pace
-              <select name="pace" defaultValue="BALANCED" className="mt-1 w-full rounded-xl border border-sand-200 bg-white px-3 py-2.5">
+              <select name="pace" defaultValue="BALANCED" className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
                 <option value="RELAXED">Relaxed — 2 stops/day</option>
                 <option value="BALANCED">Balanced — 3 stops/day</option>
                 <option value="PACKED">Packed — 4 stops/day</option>
@@ -128,7 +128,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="block text-sm font-medium">
               Transport preference
-              <select name="transportPreference" defaultValue="ANY" className="mt-1 w-full rounded-xl border border-sand-200 bg-white px-3 py-2.5">
+              <select name="transportPreference" defaultValue="ANY" className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
                 <option value="ANY">Any</option>
                 <option value="CAR">Own car / taxi</option>
                 <option value="BUS">Bus</option>
@@ -137,7 +137,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
             </label>
             <label className="block text-sm font-medium">
               Stay tier
-              <select name="accommodationPref" defaultValue="MID" className="mt-1 w-full rounded-xl border border-sand-200 bg-white px-3 py-2.5">
+              <select name="accommodationPref" defaultValue="MID" className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
                 <option value="BUDGET">Budget</option>
                 <option value="MID">Mid-range</option>
                 <option value="PREMIUM">Premium</option>
@@ -147,11 +147,11 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
           </div>
         </fieldset>
 
-        <fieldset className="rounded-2xl border border-sand-200 bg-white p-6">
+        <fieldset className="rounded-2xl border border-sand-200 bg-surface p-6">
           <legend className="px-2 text-sm font-bold uppercase tracking-wide text-ink-900/60">4 · Interests</legend>
           <div className="mt-3 flex flex-wrap gap-2">
             {INTERESTS.map((i) => (
-              <label key={i} className="cursor-pointer rounded-full border border-sand-200 bg-white px-3.5 py-2 text-xs font-medium capitalize has-checked:border-brand-500 has-checked:bg-brand-50 has-checked:text-brand-800">
+              <label key={i} className="cursor-pointer rounded-full border border-sand-200 bg-surface px-3.5 py-2 text-xs font-medium capitalize has-checked:border-brand-500 has-checked:bg-brand-50 has-checked:text-brand-800">
                 <input type="checkbox" name="interests" value={i} defaultChecked={(sp.place ? ["temples"] : []).includes(i)} className="sr-only" />
                 {i}
               </label>

@@ -58,7 +58,7 @@ export default function DestinationsLeafletMap({
               {p.name}
             </a>
             <br />
-            <span className="text-xs capitalize text-gray-600">{p.type.toLowerCase().replace(/_/g, " ")}{p.districtName ? ` · ${p.districtName}` : ""}</span>
+            <span className="text-xs capitalize text-muted">{p.type.toLowerCase().replace(/_/g, " ")}{p.districtName ? ` · ${p.districtName}` : ""}</span>
           </Popup>
         </CircleMarker>
       ))}

@@ -28,7 +28,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
           <div className="grid grid-cols-2 gap-3">
             <label className="block text-sm font-medium">
               Language
-              <select name="preferredLanguage" defaultValue={user.preferredLanguage} className="mt-1 w-full rounded-xl border border-sand-200 bg-white px-3 py-2.5">
+              <select name="preferredLanguage" defaultValue={user.preferredLanguage} className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
                 <option value="en">English</option>
                 <option value="te">తెలుగు (Telugu)</option>
                 <option value="hi">हिन्दी (Hindi)</option>
@@ -36,7 +36,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
             </label>
             <label className="block text-sm font-medium">
               Travel pace
-              <select name="travelPace" defaultValue={user.travelPace ?? ""} className="mt-1 w-full rounded-xl border border-sand-200 bg-white px-3 py-2.5">
+              <select name="travelPace" defaultValue={user.travelPace ?? ""} className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
                 <option value="">Not set</option>
                 <option value="RELAXED">Relaxed</option>
                 <option value="BALANCED">Balanced</option>
@@ -55,7 +55,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
             <legend className="text-sm font-semibold">Interests</legend>
             <div className="mt-3 flex flex-wrap gap-2">
               {INTERESTS.map((i) => (
-                <label key={i} className="cursor-pointer rounded-full border border-sand-200 bg-white px-3 py-1.5 text-xs font-medium has-checked:border-brand-500 has-checked:bg-brand-50 has-checked:text-brand-800">
+                <label key={i} className="cursor-pointer rounded-full border border-sand-200 bg-surface px-3 py-1.5 text-xs font-medium has-checked:border-brand-500 has-checked:bg-brand-50 has-checked:text-brand-800">
                   <input type="checkbox" name="interests" value={i} defaultChecked={user.interests.includes(i)} className="sr-only" />
                   {i}
                 </label>
