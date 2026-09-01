@@ -14,7 +14,7 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
   const sp = await searchParams;
   return (
     <Card className="p-8">
-      <h1 className="font-display text-2xl font-bold">Create your account</h1>
+      <h1 className="font-display text-2xl font-semibold">Create your account</h1>
       <p className="mt-1 text-sm text-ink-900/70">Free forever. Pick interests to personalise recommendations.</p>
       {sp.error ? (
         <p role="alert" className="mt-4 rounded-xl bg-spice-50 px-4 py-3 text-sm font-medium text-spice-700">
@@ -30,7 +30,7 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
             minLength={2}
             maxLength={80}
             autoComplete="name"
-            className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5 focus:border-brand-400"
+            className="field mt-1"
           />
         </label>
         <label className="block text-sm font-medium">
@@ -40,7 +40,7 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
             type="email"
             required
             autoComplete="email"
-            className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5 focus:border-brand-400"
+            className="field mt-1"
           />
         </label>
         <label className="block text-sm font-medium">
@@ -51,7 +51,7 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
             required
             minLength={8}
             autoComplete="new-password"
-            className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5 focus:border-brand-400"
+            className="field mt-1"
           />
           <span className="mt-1 block text-xs font-normal text-ink-900/60">At least 8 characters with letters and numbers.</span>
         </label>

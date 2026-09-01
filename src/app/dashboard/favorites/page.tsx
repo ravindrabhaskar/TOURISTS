@@ -6,6 +6,7 @@ import { DestinationCard, gradientFor } from "@/components/catalog/cards";
 import { Card } from "@/components/ui/primitives";
 import TripCard from "@/components/trips/TripCard";
 import { getVisibleTrips } from "@/lib/server/content";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = { title: "Favourites" };
 export const dynamic = "force-dynamic";
@@ -36,7 +37,12 @@ export default async function FavoritesPage() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold">Favourites</h1>
+      <PageHeader
+        compact
+        eyebrow="Saved"
+        title="Favourites"
+        sub="Trips, places and stays you have shortlisted — synced to your account."
+      />
 
       <section aria-labelledby="fav-t" className="mt-6">
         <h2 id="fav-t" className="font-display text-xl font-bold">Trips ({trips.length})</h2>

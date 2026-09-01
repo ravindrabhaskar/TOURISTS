@@ -2,6 +2,7 @@ import { db } from "@/server/db";
 import { requireViewer } from "@/server/auth/guard";
 import { updateSettingsAction } from "@/server/actions/user";
 import { Card } from "@/components/ui/primitives";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = { title: "Settings" };
 export const dynamic = "force-dynamic";
@@ -15,7 +16,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold">Settings</h1>
+      <PageHeader compact eyebrow="Your account" title="Settings" />
       {sp.saved ? <p role="status" className="mt-3 rounded-xl bg-brand-50 px-4 py-3 text-sm text-brand-800">Saved ✓</p> : null}
       {sp.error ? <p role="alert" className="mt-3 rounded-xl bg-spice-50 px-4 py-3 text-sm text-spice-700">{sp.error}</p> : null}
 
@@ -28,7 +29,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
           <div className="grid grid-cols-2 gap-3">
             <label className="block text-sm font-medium">
               Language
-              <select name="preferredLanguage" defaultValue={user.preferredLanguage} className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
+              <select name="preferredLanguage" defaultValue={user.preferredLanguage} className="field mt-1">
                 <option value="en">English</option>
                 <option value="te">తెలుగు (Telugu)</option>
                 <option value="hi">हिन्दी (Hindi)</option>
@@ -36,7 +37,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
             </label>
             <label className="block text-sm font-medium">
               Travel pace
-              <select name="travelPace" defaultValue={user.travelPace ?? ""} className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
+              <select name="travelPace" defaultValue={user.travelPace ?? ""} className="field mt-1">
                 <option value="">Not set</option>
                 <option value="RELAXED">Relaxed</option>
                 <option value="BALANCED">Balanced</option>

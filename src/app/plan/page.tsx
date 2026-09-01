@@ -114,7 +114,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
             </label>
             <label className="block text-sm font-medium">
               Pace
-              <select name="pace" defaultValue="BALANCED" className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
+              <select name="pace" defaultValue="BALANCED" className="field mt-1">
                 <option value="RELAXED">Relaxed — 2 stops/day</option>
                 <option value="BALANCED">Balanced — 3 stops/day</option>
                 <option value="PACKED">Packed — 4 stops/day</option>
@@ -128,7 +128,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="block text-sm font-medium">
               Transport preference
-              <select name="transportPreference" defaultValue="ANY" className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
+              <select name="transportPreference" defaultValue="ANY" className="field mt-1">
                 <option value="ANY">Any</option>
                 <option value="CAR">Own car / taxi</option>
                 <option value="BUS">Bus</option>
@@ -137,7 +137,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
             </label>
             <label className="block text-sm font-medium">
               Stay tier
-              <select name="accommodationPref" defaultValue="MID" className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5">
+              <select name="accommodationPref" defaultValue="MID" className="field mt-1">
                 <option value="BUDGET">Budget</option>
                 <option value="MID">Mid-range</option>
                 <option value="PREMIUM">Premium</option>

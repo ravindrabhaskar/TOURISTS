@@ -5,6 +5,7 @@ import { getBalance, levelFor } from "@/server/domains/gamification";
 import { unreadCount } from "@/server/domains/notifications";
 import { Card } from "@/components/ui/primitives";
 import { formatINR, formatDate } from "@/lib/utils";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = { title: "Dashboard" };
 export const dynamic = "force-dynamic";
@@ -21,10 +22,14 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold">Vanakkam, {viewer.name.split(" ")[0]} 👋</h1>
-      <p className="mt-1 text-ink-900/70">Your Andhra Pradesh journeys at a glance.</p>
+      <PageHeader
+        compact
+        eyebrow="Your dashboard"
+        title={`Namaskāram, ${viewer.name.split(" ")[0]}`}
+        sub="Your Andhra Pradesh journeys at a glance."
+      />
 
-      <dl className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <dl className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {[
           { label: "Trips planned", value: String(tripCount), href: "/dashboard/trips", icon: "🗺️" },
           {

@@ -9,7 +9,7 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
   const sp = await searchParams;
   return (
     <Card className="p-8">
-      <h1 className="font-display text-2xl font-bold">Welcome back</h1>
+      <h1 className="font-display text-2xl font-semibold">Welcome back</h1>
       <p className="mt-1 text-sm text-ink-900/70">Sign in to plan trips, save favourites and manage bookings.</p>
       {sp.error ? (
         <p role="alert" className="mt-4 rounded-xl bg-spice-50 px-4 py-3 text-sm font-medium text-spice-700">
@@ -25,7 +25,7 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
             type="email"
             required
             autoComplete="email"
-            className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5 focus:border-brand-400"
+            className="field mt-1"
             placeholder="you@example.com"
           />
         </label>
@@ -36,7 +36,7 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
             type="password"
             required
             autoComplete="current-password"
-            className="mt-1 w-full rounded-xl border border-sand-200 bg-surface px-3 py-2.5 focus:border-brand-400"
+            className="field mt-1"
             placeholder="••••••••"
           />
         </label>

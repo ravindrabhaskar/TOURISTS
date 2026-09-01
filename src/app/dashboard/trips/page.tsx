@@ -4,6 +4,7 @@ import { listUserTrips } from "@/server/domains/trips/service";
 import { deleteTripAction } from "@/server/actions/user";
 import { Card } from "@/components/ui/primitives";
 import { formatINR, formatDate } from "@/lib/utils";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = { title: "My trips" };
 export const dynamic = "force-dynamic";
@@ -22,10 +23,17 @@ export default async function TripsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl font-bold">My trips</h1>
-        <Link href="/plan" className="rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">✨ New trip</Link>
-      </div>
+      <PageHeader
+        compact
+        eyebrow="Itineraries"
+        title="My trips"
+        sub="Day-by-day plans you have built with the planner."
+        action={
+          <Link href="/plan" className="btn btn-pine">
+            New trip
+          </Link>
+        }
+      />
 
       {trips.length === 0 ? (
         <p className="mt-8 rounded-2xl border border-dashed border-sand-300 p-10 text-center text-ink-900/60">

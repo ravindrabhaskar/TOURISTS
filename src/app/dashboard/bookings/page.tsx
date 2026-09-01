@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/primitives";
 import { formatINR, formatDate } from "@/lib/utils";
 import { listEnquiriesForUser } from "@/lib/server/db";
 import { db } from "@/server/db";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = { title: "My bookings" };
 export const dynamic = "force-dynamic";
@@ -46,10 +47,17 @@ export default async function BookingsPage({ searchParams }: { searchParams: Pro
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold">Bookings</h1>
-      <p className="mt-1 text-sm text-ink-900/70">
-        Payments run through a <strong>sandbox gateway</strong> until live credentials are configured — every flow below is fully exercised.
-      </p>
+      <PageHeader
+        compact
+        eyebrow="Requests & reservations"
+        title="Bookings"
+        sub={
+          <>
+            Payments run through a <strong>sandbox gateway</strong> until live
+            credentials are configured — every flow below is fully exercised.
+          </>
+        }
+      />
 
       {sp.paid ? (
         <p role="status" className="mt-4 rounded-xl bg-brand-50 px-4 py-3 text-sm font-medium text-brand-800">🎉 Payment successful — booking confirmed!</p>

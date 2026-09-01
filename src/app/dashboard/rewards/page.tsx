@@ -2,6 +2,7 @@ import { requireViewer } from "@/server/auth/guard";
 import { getBalance, getHistory, levelFor, listChallenges, leaderboard } from "@/server/domains/gamification";
 import { db } from "@/server/db";
 import { Card, SectionHeading } from "@/components/ui/primitives";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = { title: "Rewards" };
 export const dynamic = "force-dynamic";
@@ -20,7 +21,7 @@ export default async function RewardsPage() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold">Rewards</h1>
+      <PageHeader compact eyebrow="Loyalty" title="Rewards" />
 
       {/* Level card */}
       <Card className="mt-4 overflow-hidden">

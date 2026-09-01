@@ -14,17 +14,21 @@ export default function PageHeader({
   sub,
   action,
   className,
+  compact = false,
 }: {
   eyebrow?: string;
   title: string;
   sub?: ReactNode;
   action?: ReactNode;
   className?: string;
+  /** Tighter scale for headers inside a column, e.g. the dashboard. */
+  compact?: boolean;
 }) {
   return (
     <header
       className={cn(
-        "flex flex-wrap items-end justify-between gap-4 border-b border-line pb-6",
+        "flex flex-wrap items-end justify-between gap-4 border-b border-line",
+        compact ? "pb-4" : "pb-6",
         className,
       )}
     >
@@ -34,11 +38,18 @@ export default function PageHeader({
             {eyebrow}
           </p>
         ) : null}
-        <h1 className="mt-2 font-display text-4xl font-semibold leading-tight sm:text-5xl">
+        <h1
+          className={cn(
+            "mt-2 font-display font-semibold leading-tight",
+            compact ? "text-2xl sm:text-3xl" : "text-4xl sm:text-5xl",
+          )}
+        >
           {title}
         </h1>
         {sub ? (
-          <p className="mt-3 text-base leading-relaxed text-muted">{sub}</p>
+          <p className={cn("leading-relaxed text-muted", compact ? "mt-2 text-sm" : "mt-3 text-base")}>
+            {sub}
+          </p>
         ) : null}
       </div>
       {action ? <div className="shrink-0">{action}</div> : null}

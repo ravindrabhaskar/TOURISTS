@@ -2,6 +2,7 @@ import { requireViewer } from "@/server/auth/guard";
 import { listNotifications, unreadCount } from "@/server/domains/notifications";
 import { markNotificationsReadAction } from "@/server/actions/user";
 import { Card } from "@/components/ui/primitives";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = { title: "Notifications" };
 export const dynamic = "force-dynamic";
@@ -22,16 +23,21 @@ export default async function NotificationsPage() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-display text-3xl font-bold">Notifications {unread > 0 ? <span className="align-middle rounded-full bg-spice-500 px-2.5 py-1 text-xs font-bold text-white">{unread} new</span> : null}</h1>
-        {unread > 0 ? (
-          <form action={markNotificationsReadAction}>
-            <button type="submit" className="rounded-xl border border-sand-200 bg-surface px-4 py-2 text-sm font-semibold hover:border-brand-300">
-              Mark all as read
-            </button>
-          </form>
-        ) : null}
-      </div>
+      <PageHeader
+        compact
+        eyebrow="Updates"
+        title="Notifications"
+        sub={unread > 0 ? `${unread} unread` : "You are all caught up."}
+        action={
+          unread > 0 ? (
+            <form action={markNotificationsReadAction}>
+              <button type="submit" className="btn btn-outline">
+                Mark all as read
+              </button>
+            </form>
+          ) : null
+        }
+      />
 
       {items.length === 0 ? (
         <p className="mt-8 rounded-2xl border border-dashed border-sand-300 p-10 text-center text-ink-900/60">
