@@ -38,8 +38,8 @@ export default function TripMapInner({ slug, name }: { slug: string; name: strin
           center={[geo.lat, geo.lng]}
           radius={11}
           pathOptions={{
-            color: "var(--accent)",
-            fillColor: "var(--accent)",
+            color: "rgb(var(--accent))",
+            fillColor: "rgb(var(--accent))",
             fillOpacity: 0.35,
             weight: 2,
           }}

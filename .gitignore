@@ -37,3 +37,6 @@ tsconfig.tsbuildinfo
 
 # merged source archive (280MB) — kept locally, not in git
 game.zip
+
+# headless screenshots used for design review
+shots/

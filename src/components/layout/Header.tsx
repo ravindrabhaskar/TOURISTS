@@ -214,18 +214,18 @@ export default function Header() {
             aria-label="Sanchari home"
           >
             <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden>
-              <circle cx="16" cy="16" r="14" fill="none" stroke="var(--accent)" strokeWidth="2" />
+              <circle cx="16" cy="16" r="14" fill="none" stroke="rgb(var(--accent))" strokeWidth="2" />
               <path
                 d="M7 13h12a3.5 3.5 0 1 0-3.5-3.5M7 18h16a3.5 3.5 0 1 1-3.5 3.5M7 23h8"
                 fill="none"
-                stroke="var(--pine)"
+                stroke="rgb(var(--pine))"
                 strokeWidth="2"
                 strokeLinecap="round"
               />
             </svg>
             <span className="leading-tight">
               <span className="block font-display text-lg font-semibold">Sanchari</span>
-              <span className="block font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+              <span className="hidden whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.22em] text-muted xl:block">
                 Hyderabad · since 2011
               </span>
             </span>
@@ -238,7 +238,7 @@ export default function Header() {
                   <Link
                     href={n.href}
                     className={cn(
-                      "flex min-h-11 items-center rounded-full px-4 text-sm font-medium transition-colors hover:bg-surface2",
+                      "flex min-h-11 items-center whitespace-nowrap rounded-full px-3 text-sm font-medium transition-colors hover:bg-surface2",
                       pathname === n.href && "text-accent",
                     )}
                   >
@@ -251,7 +251,7 @@ export default function Header() {
 
           <div className="flex items-center gap-1.5">
             <div
-              className="hidden overflow-hidden rounded-full border border-line md:flex"
+              className="hidden overflow-hidden rounded-full border border-line 2xl:flex"
               role="group"
               aria-label="Currency"
             >
@@ -307,7 +307,7 @@ export default function Header() {
 
             <Link
               href="/plan"
-              className="hidden min-h-10 items-center rounded-full px-3 text-sm font-medium text-pine transition-colors hover:bg-surface2 lg:inline-flex"
+              className="hidden min-h-10 items-center whitespace-nowrap rounded-full px-3 text-sm font-medium text-pine transition-colors hover:bg-surface2 xl:inline-flex"
             >
               AI planner
             </Link>
@@ -316,7 +316,7 @@ export default function Header() {
               <Link
                 href="/dashboard"
                 aria-label={`Account — ${viewer.name}`}
-                className="hidden min-h-10 items-center gap-2 rounded-full border border-line px-3 text-sm font-semibold transition-colors hover:bg-surface2 sm:inline-flex"
+                className="hidden min-h-10 items-center gap-2 whitespace-nowrap rounded-full border border-line px-3 text-sm font-semibold transition-colors hover:bg-surface2 sm:inline-flex"
               >
                 <span
                   aria-hidden
@@ -329,13 +329,13 @@ export default function Header() {
             ) : (
               <Link
                 href="/signin"
-                className="hidden min-h-10 items-center rounded-full px-3 text-sm font-medium transition-colors hover:bg-surface2 sm:inline-flex"
+                className="hidden min-h-10 items-center whitespace-nowrap rounded-full px-3 text-sm font-medium transition-colors hover:bg-surface2 sm:inline-flex"
               >
                 Sign in
               </Link>
             )}
 
-            <Link href="/enquire" className="btn btn-primary ml-1 hidden sm:inline-flex">
+            <Link href="/enquire" className="btn btn-primary ml-1 hidden whitespace-nowrap sm:inline-flex">
               Plan a trip
             </Link>
 

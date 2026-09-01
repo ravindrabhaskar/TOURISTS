@@ -7,43 +7,43 @@
    trips, journal) and the product surface (dashboard, planner, checkout).
    Every token has a dark counterpart; `.dark` is toggled on <html>.        */
 :root {
-  --bg: #faf6ef;
-  --surface: #ffffff;
-  --surface2: #f3ecdf;
-  --line: #e5dccb;
-  --ink: #211d15;
-  --muted: #6e6555;
-  --accent: #c4562f;
-  --accent-strong: #a34322;
-  --accent-soft: #f6e4da;
-  --pine: #155e56;
-  --pine-soft: #deece8;
-  --gold: #a87b14;
-  --ok: #25794c;
-  --danger: #b23a2d;
+  --bg: 250 246 239;
+  --surface: 255 255 255;
+  --surface2: 243 236 223;
+  --line: 229 220 203;
+  --ink: 33 29 21;
+  --muted: 110 101 85;
+  --accent: 196 86 47;
+  --accent-strong: 163 67 34;
+  --accent-soft: 246 228 218;
+  --pine: 21 94 86;
+  --pine-soft: 222 236 232;
+  --gold: 168 123 20;
+  --ok: 37 121 76;
+  --danger: 178 58 45;
   /* Stays dark enough for white button text in BOTH themes. */
-  --pine-deep: #155e56;
+  --pine-deep: 21 94 86;
 
   --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Telugu", sans-serif;
   --font-display: Georgia, "Times New Roman", serif;
 }
 
 .dark {
-  --bg: #14110c;
-  --surface: #1d1913;
-  --surface2: #272119;
-  --line: #352d20;
-  --ink: #f1eae0;
-  --muted: #a79c8b;
-  --accent: #dd7a54;
-  --accent-strong: #ec9070;
-  --accent-soft: #38261c;
-  --pine: #74c3b7;
-  --pine-soft: #17332e;
-  --gold: #d9a83f;
-  --ok: #5cbd8f;
-  --danger: #e06b58;
-  --pine-deep: #2f9c8f;
+  --bg: 20 17 12;
+  --surface: 29 25 19;
+  --surface2: 39 33 25;
+  --line: 53 45 32;
+  --ink: 241 234 224;
+  --muted: 167 156 139;
+  --accent: 221 122 84;
+  --accent-strong: 236 144 112;
+  --accent-soft: 56 38 28;
+  --pine: 116 195 183;
+  --pine-soft: 23 51 46;
+  --gold: 217 168 63;
+  --ok: 92 189 143;
+  --danger: 224 107 88;
+  --pine-deep: 47 156 143;
 }
 
 @layer base {
@@ -56,15 +56,15 @@
   }
   body {
     @apply antialiased;
-    background-color: var(--bg);
-    color: var(--ink);
+    background-color: rgb(var(--bg));
+    color: rgb(var(--ink));
   }
   ::selection {
-    background: var(--accent);
+    background: rgb(var(--accent));
     color: #fff;
   }
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid rgb(var(--accent));
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -125,25 +125,25 @@
     cursor: not-allowed;
   }
   .btn-primary {
-    background: var(--accent);
+    background: rgb(var(--accent));
     color: #fff;
   }
   .btn-primary:hover:not(:disabled) {
-    background: var(--accent-strong);
+    background: rgb(var(--accent-strong));
   }
   .dark .btn-primary {
     color: #171310;
   }
   .btn-outline {
-    border: 1px solid var(--line);
-    background: var(--surface);
-    color: var(--ink);
+    border: 1px solid rgb(var(--line));
+    background: rgb(var(--surface));
+    color: rgb(var(--ink));
   }
   .btn-outline:hover:not(:disabled) {
-    border-color: var(--muted);
+    border-color: rgb(var(--muted));
   }
   .btn-pine {
-    background: var(--pine);
+    background: rgb(var(--pine));
     color: #fff;
   }
   .btn-pine:hover:not(:disabled) {
@@ -153,11 +153,11 @@
     color: #101512;
   }
   .btn-ghost {
-    color: var(--ink);
+    color: rgb(var(--ink));
     background: transparent;
   }
   .btn-ghost:hover:not(:disabled) {
-    background: var(--surface2);
+    background: rgb(var(--surface2));
   }
 
   /* Chips ----------------------------------------------------------------- */
@@ -167,12 +167,12 @@
     gap: 0.35rem;
     white-space: nowrap;
     border-radius: 9999px;
-    border: 1px solid var(--line);
-    background: var(--surface);
+    border: 1px solid rgb(var(--line));
+    background: rgb(var(--surface));
     padding: 0.4rem 0.85rem;
     font-size: 0.8125rem;
     font-weight: 500;
-    color: var(--ink);
+    color: rgb(var(--ink));
     transition:
       background-color 0.15s ease,
       border-color 0.15s ease;
@@ -180,13 +180,13 @@
     min-height: 2.25rem;
   }
   .chip:hover {
-    border-color: var(--muted);
+    border-color: rgb(var(--muted));
   }
   .chip[aria-pressed="true"],
   .chip.active {
-    background: var(--ink);
-    color: var(--bg);
-    border-color: var(--ink);
+    background: rgb(var(--ink));
+    color: rgb(var(--bg));
+    border-color: rgb(var(--ink));
   }
 
   /* Forms ----------------------------------------------------------------- */
@@ -194,27 +194,27 @@
     width: 100%;
     min-height: 2.75rem;
     border-radius: 0.75rem;
-    border: 1px solid var(--line);
-    background: var(--surface);
-    color: var(--ink);
+    border: 1px solid rgb(var(--line));
+    background: rgb(var(--surface));
+    color: rgb(var(--ink));
     padding: 0.6rem 0.9rem;
     font-size: 0.9375rem;
   }
   .field::placeholder {
-    color: var(--muted);
+    color: rgb(var(--muted));
   }
   .field[aria-invalid="true"] {
-    border-color: var(--danger);
+    border-color: rgb(var(--danger));
   }
 
   /* Surfaces -------------------------------------------------------------- */
   .card {
-    background: var(--surface);
-    border: 1px solid var(--line);
+    background: rgb(var(--surface));
+    border: 1px solid rgb(var(--line));
     border-radius: 1.25rem;
   }
   .hairline {
-    border-color: var(--line);
+    border-color: rgb(var(--line));
   }
 }
 
@@ -307,9 +307,9 @@
   border-radius: 0.75rem;
   background: linear-gradient(
     100deg,
-    var(--surface2) 40%,
-    var(--surface) 50%,
-    var(--surface2) 60%
+    rgb(var(--surface2)) 40%,
+    rgb(var(--surface)) 50%,
+    rgb(var(--surface2)) 60%
   );
   background-size: 200% 100%;
   animation: shimmer-bg 1.6s linear infinite;

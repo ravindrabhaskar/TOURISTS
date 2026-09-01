@@ -85,14 +85,19 @@ export default async function DestinationDetailPage({
 
       {/* Hero */}
       <section className={`relative isolate bg-gradient-to-br ${gradientFor(d.slug)} text-white`}>
-        <Frame
-          src={d.images?.[0]}
-          alt=""
-          fallbackSeed={`destination-${d.slug}`}
-          sizes="100vw"
-          priority
-          className="absolute inset-0 -z-10 h-full w-full"
-        />
+        {/* Wrapper owns the positioning: Frame's own `relative` would win over
+            an `absolute` passed via className, since Tailwind emits .relative
+            after .absolute at equal specificity. */}
+        <div className="absolute inset-0 -z-10">
+          <Frame
+            src={d.images?.[0]}
+            alt=""
+            fallbackSeed={`destination-${d.slug}`}
+            sizes="100vw"
+            priority
+            className="h-full w-full"
+          />
+        </div>
         {/* Keeps the headline legible over any photograph. */}
         <span
           aria-hidden

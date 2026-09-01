@@ -10,11 +10,11 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               older logo, so signing in looked like a different product. */}
           <Link href="/" className="inline-flex items-center gap-2.5" aria-label="Sanchari home">
             <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden>
-              <circle cx="16" cy="16" r="14" fill="none" stroke="var(--accent)" strokeWidth="2" />
+              <circle cx="16" cy="16" r="14" fill="none" stroke="rgb(var(--accent))" strokeWidth="2" />
               <path
                 d="M7 13h12a3.5 3.5 0 1 0-3.5-3.5M7 18h16a3.5 3.5 0 1 1-3.5 3.5M7 23h8"
                 fill="none"
-                stroke="var(--pine)"
+                stroke="rgb(var(--pine))"
                 strokeWidth="2"
                 strokeLinecap="round"
               />

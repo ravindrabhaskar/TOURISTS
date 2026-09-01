@@ -61,14 +61,19 @@ export default async function StayDetailPage({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <section className={`relative isolate bg-gradient-to-br ${gradientFor(s.slug)} text-white`}>
-        <Frame
-          src={s.images?.[0]}
-          alt=""
-          fallbackSeed={`stay-${s.slug}`}
-          sizes="100vw"
-          priority
-          className="absolute inset-0 -z-10 h-full w-full"
-        />
+        {/* Wrapper owns the positioning: Frame's own `relative` would win over
+            an `absolute` passed via className, since Tailwind emits .relative
+            after .absolute at equal specificity. */}
+        <div className="absolute inset-0 -z-10">
+          <Frame
+            src={s.images?.[0]}
+            alt=""
+            fallbackSeed={`stay-${s.slug}`}
+            sizes="100vw"
+            priority
+            className="h-full w-full"
+          />
+        </div>
         <span
           aria-hidden
           className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/60 to-black/40"

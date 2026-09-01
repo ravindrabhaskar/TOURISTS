@@ -229,7 +229,7 @@ function Studio({
                   const v = e.target.checked;
                   setRows((rs) => rs.map((r, j) => (j === i ? { ...r, hidden: v } : r)));
                 }}
-                className="h-4 w-4 accent-[var(--accent)]"
+                className="h-4 w-4 accent-[rgb(var(--accent))]"
               />
               Hidden
             </label>
